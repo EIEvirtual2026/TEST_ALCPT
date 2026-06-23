@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Escuela de Idiomas del Ejército</title>
+    <script>
+        if (screen.width < 920) {
+            document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1024, user-scalable=yes');
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --navy:#0b2447;
+            --navy-2:#19376d;
+            --navy-3:#0f2a5c;
+            --mustard:#e1b12c;
+            --mustard-2:#f6c945;
+            --bg:#eef2f7;
+            --surface:#ffffff;
+            --text:#0b1b34;
+            --muted:#5b6b85;
+            --line:#dbe2ec;
+            --ok:#1f8a4c;
+            --err:#c0392b;
+        }
+        *{
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+            -webkit-touch-callout:none;
+            outline:none;
+            box-sizing:border-box;
+        }
+        @media print{body{display:none!important;}}
+        html,body{height:100%;}
+        body{
+            font-family:'Poppins',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+            background:
+                radial-gradient(1200px 600px at 10% -10%,rgba(225,177,44,.22),transparent 60%),
+                radial-gradient(900px 500px at 110% 110%,rgba(11,36,71,.32),transparent 60%),
+                radial-gradient(700px 700px at 50% 50%,rgba(25,55,109,.10),transparent 70%),
+                linear-gradient(135deg,#0b1b34 0%,#0f2a5c 45%,#19376d 100%);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+            margin:0;
+            color:var(--text);
+            overflow:hidden;
+            position:relative;
+        }
+        body::before{
+            content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+            background-image:
+                linear-gradient(rgba(225,177,44,.06) 1px,transparent 1px),
+                linear-gradient(90deg,rgba(225,177,44,.06) 1px,transparent 1px);
+            background-size:48px 48px;
+            -webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);
+            mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);
+        }
+        body.scroll-resultado,body.scroll-inicio{
+            overflow-y:auto!important;
+            align-items:flex-start!important;
+            padding:24px 0;
+        }
+        body.scroll-resultado .container,body.scroll-inicio .container{
+            max-height:none!important;margin:0 auto;
+        }
+        .container{
+            background:linear-gradient(180deg,#ffffff 0%,#f7faff 100%);
+            padding:24px 36px 36px;
+            border-radius:22px;
+            box-shadow:0 20px 60px rgba(0,0,0,.45),0 0 0 1px rgba(225,177,44,.15);
+            width:95%;
+            max-width:1100px;
+            text-align:center;
+            position:relative;
+            display:flex;
+            flex-direction:column;
+            border:1px solid var(--line);
+            z-index:1;
+        }
+        .container::before{
+            content:"";position:absolute;inset:-2px;border-radius:24px;padding:2px;
+            background:conic-gradient(from 0deg,
+                rgba(225,177,44,0) 0%,rgba(225,177,44,.9) 15%,
+                rgba(25,55,109,0) 35%,rgba(25,55,109,.9) 55%,
+                rgba(225,177,44,0) 75%,rgba(225,177,44,.9) 95%,
+                rgba(225,177,44,0) 100%);
+            -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+            -webkit-mask-composite:xor;mask-composite:exclude;
+            
+            pointer-events:none;z-index:0;opacity:.85;
+        }
+        .container > *{position:relative;z-index:1;}
+        @keyframes rotateBorder{to{transform:rotate(360deg);}}
+        @keyframes pulseGlow{
+            0%,100%{box-shadow:0 0 0 0 rgba(225,177,44,.55),0 8px 24px rgba(11,36,71,.25);}
+            50%{box-shadow:0 0 0 10px rgba(225,177,44,0),0 8px 24px rgba(11,36,71,.25);}
+        }
+        @keyframes scanX{0%{transform:translateX(-120%);}100%{transform:translateX(120%);}}
+        @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+        .brand-bar{
+            display:flex;align-items:center;justify-content:space-between;
+            padding-bottom:14px;margin-bottom:8px;
+            border-bottom:1px solid var(--line);
+        }
+        .brand-bar .brand{
+            display:flex;align-items:center;gap:10px;
+            font-weight:700;color:var(--navy);letter-spacing:.5px;
+        }
+        .brand-bar .brand .dot{
+            width:10px;height:10px;border-radius:50%;
+            background:var(--mustard);box-shadow:0 0 0 4px rgba(225,177,44,.25);
+        }
+        .brand-bar .tag{font-size:.78em;color:var(--muted);font-weight:500;}
+        .main-layout{display:flex;gap:20px;width:100%;margin-bottom:10px;}
+        .nav-panel{
+            width:300px;background:linear-gradient(180deg,#f7f9fc,#eef2f7);
+            border-radius:14px;padding:10px;border:1px solid var(--line);
+            display:none;
+        }
+        .nav-grid{display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(15,1fr);gap:4px;}
+        .nav-item{
+            aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+            background:#fff;border:1px solid var(--line);border-radius:6px;
+            font-size:.62em;font-weight:700;color:var(--muted);cursor:pointer;
+            transition:transform .15s ease,background .15s ease,color .15s ease,border-color .15s ease;
+        }
+        .nav-item:hover{transform:translateY(-1px);}
+        .nav-item.active{border:2px solid var(--navy);color:var(--navy);background:#e7eefb;}
+        .nav-item.answered{background:var(--mustard);color:var(--navy);border-color:var(--mustard);}
+        .content-area{flex:1;}
+        .pregunta-box{display:none;width:100%;}
+        .header-pregunta{
+            display:flex;justify-content:space-between;align-items:center;
+            margin:8px 0 14px;padding:0 6px;gap:14px;
+        }
+        .texto-pregunta{
+            font-size:1.55em;font-weight:700;color:var(--navy);
+            flex:1;text-align:center;letter-spacing:.2px;
+        }
+        .tiempo-global{
+            background:var(--navy);color:var(--mustard-2);
+            padding:9px 16px;border-radius:10px;
+            font-family:'Poppins',monospace;font-size:1.15em;font-weight:700;
+            border:2px solid var(--mustard);
+            box-shadow:0 6px 18px rgba(11,36,71,.25);letter-spacing:1px;
+        }
+        .bloque-contenido{width:100%;max-width:870px;margin:0 auto;}
+        .imagen-pregunta{
+            width:100%;height:auto;max-height:380px;object-fit:contain;
+            margin:0 auto 28px;border-radius:14px;display:block;
+            border:1px solid var(--line);pointer-events:none;background:#fafbfd;
+        }
+        .layout-etapa2{display:flex;align-items:center;gap:30px;text-align:center;margin-bottom:28px;}
+        .img-lateral{flex:1;max-width:350px;border-radius:12px;border:1px solid var(--line);}
+        .columna-opciones{flex:1;display:flex;flex-direction:column;gap:10px;text-align:center;}
+        .contenedor-opciones-circular{display:grid;grid-template-columns:repeat(4,1fr);width:100%;margin-bottom:36px;gap:8px;}
+        .contenedor-opciones-vertical{display:flex;flex-direction:column;gap:12px;width:100%;max-width:520px;margin:0 auto 32px;}
+        .division-opcion{display:flex;justify-content:center;align-items:center;}
+        .opcion-btn-circular{
+            width:68px;height:68px;border-radius:50%;border:2px solid var(--line);
+            background:#fff;cursor:pointer;font-size:1.35em;color:var(--navy);font-weight:700;
+            display:flex;align-items:center;justify-content:center;
+            transition:all .2s ease;box-shadow:0 3px 10px rgba(11,36,71,.06);
+        }
+        .opcion-btn-circular:hover{border-color:var(--mustard);transform:translateY(-2px);}
+        .opcion-btn-vertical{
+            width:100%;padding:14px 18px;border-radius:12px;border:2px solid var(--line);
+            background:#fff;cursor:pointer;font-size:1.05em;text-align:left;
+            transition:.2s ease;font-weight:500;color:var(--text);
+            box-shadow:0 3px 10px rgba(11,36,71,.04);
+        }
+        .opcion-btn-vertical:hover{border-color:var(--mustard);}
+        .opcion-btn-circular.seleccionada,.opcion-btn-vertical.seleccionada{
+            background:var(--navy);color:var(--mustard-2);border-color:var(--mustard);
+            box-shadow:0 8px 22px rgba(11,36,71,.35);
+        }
+        .timer-container{width:100%;background-color:#e9eef5;border-radius:20px;margin:8px auto;height:10px;overflow:hidden;}
+        .timer-bar{height:100%;width:100%;background:linear-gradient(90deg,var(--mustard),var(--mustard-2));}
+        .contador-texto{font-size:.92em;color:var(--muted);margin-top:4px;}
+        .btn-primario{
+            padding:14px 32px;cursor:pointer;border-radius:12px;border:none;
+            background:linear-gradient(180deg,var(--navy-2),var(--navy));
+            color:#fff;font-weight:700;font-size:1.05em;font-family:inherit;
+            transition:transform .15s ease,box-shadow .2s ease,filter .2s ease;
+            box-shadow:0 10px 22px rgba(11,36,71,.28);letter-spacing:.3px;
+        }
+        .btn-primario:hover{transform:translateY(-1px);filter:brightness(1.05);}
+        .btn-mostaza{
+            background:linear-gradient(180deg,var(--mustard-2),var(--mustard));
+            color:var(--navy);box-shadow:0 10px 22px rgba(225,177,44,.4);
+        }
+        .btn-pausa{display:none!important;}
+        .btn-siguiente{
+            margin-top:18px;padding:12px 42px;
+            background:linear-gradient(180deg,var(--mustard-2),var(--mustard));
+            color:var(--navy);border:none;border-radius:12px;
+            font-weight:700;font-size:1.05em;font-family:inherit;cursor:pointer;
+            box-shadow:0 10px 22px rgba(225,177,44,.4);
+            transition:transform .15s ease,filter .15s ease;
+        }
+        .btn-siguiente:hover{transform:translateY(-1px);filter:brightness(1.04);}
+        #btnGuardarEnviar{display:none;margin-top:18px;}
+        #aviso-conexion,#pantalla-carga-final{
+            display:none;position:absolute;inset:0;
+            background:rgba(255,255,255,.98);z-index:9999;border-radius:22px;
+            flex-direction:column;justify-content:center;align-items:center;
+        }
+        .loader-container{
+            position:relative;width:84px;height:84px;
+            display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+        }
+        .spinner-red{
+            position:absolute;width:100%;height:100%;
+            border:6px solid #eef2f7;border-top:6px solid var(--mustard);
+            border-right:6px solid var(--navy);border-radius:50%;
+            animation:spin 1s linear infinite;
+        }
+        .logo-spinner{width:42px;height:42px;object-fit:contain;}
+        @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+        #modal-confirmacion,#modal-salir{
+            display:none;position:fixed;inset:0;
+            background:rgba(11,27,52,.55);z-index:10000;
+            justify-content:center;align-items:center;backdrop-filter:blur(2px);
+        }
+        .modal-content{
+            background:#fff;padding:28px;border-radius:16px;max-width:420px;
+            text-align:center;border-top:6px solid var(--mustard);
+            box-shadow:0 20px 60px rgba(0,0,0,.3);
+        }
+        .modal-content h3{margin:0 0 8px;color:var(--navy);}
+        .modal-content p{margin:0 0 6px;color:var(--muted);}
+        .input-carnet{
+            padding:13px 14px;font-size:1.15em;border:2px solid var(--navy);
+            border-radius:10px;margin-bottom:18px;width:280px;text-align:center;
+            font-family:inherit;user-select:text!important;-webkit-user-select:text!important;
+            color:var(--navy);font-weight:600;
+        }
+        .input-carnet:focus{border-color:var(--mustard);box-shadow:0 0 0 4px rgba(225,177,44,.25);}
+        #pantalla-inicio h2{color:var(--navy);margin:4px 0 8px;font-weight:800;letter-spacing:.5px;}
+        .instr{
+            text-align:left;background:#f7f9fc;border:1px solid var(--line);
+            border-left:6px solid var(--mustard);padding:16px 20px;border-radius:12px;
+            color:#3b4a66;font-size:.95em;line-height:1.55;max-width:780px;margin:18px auto 24px;
+        }
+        .instr h3{color:var(--navy);margin:0 0 8px;}
+        .card-resultado{
+            padding:18px 26px;border:2px solid var(--navy);background:#fff;
+            border-top:8px solid var(--mustard);border-radius:16px;text-align:center;
+            max-width:620px;margin:10px auto;
+        }
+        .card-resultado h3{color:var(--navy);margin:6px 0 10px;letter-spacing:.5px;}
+        .detalle-final{
+            text-align:left;background:#f7f9fc;padding:14px 20px;border-radius:12px;
+            line-height:1.5;font-size:.98em;border:1px solid var(--line);
+        }
+        .detalle-final p{margin:4px 0;}
+        .nota-destacada{
+            font-size:28px;font-weight:800;color:var(--navy);
+            background:linear-gradient(180deg,#fff8e1,#fdecb1);
+            padding:12px;margin:12px 0;border-radius:10px;display:block;
+            border:1px solid var(--mustard);
+        }
+        .detalle-condicion{
+            background:#f7f9fc;border:2px solid var(--line);border-radius:12px;
+            padding:16px 20px;margin:12px auto;max-width:500px;text-align:left;
+        }
+        .condicion-badge{
+            display:inline-block;padding:5px 18px;border-radius:20px;
+            font-weight:700;font-size:.88em;letter-spacing:1.5px;margin-bottom:10px;
+        }
+        .condicion-badge.normal{background:#e8f5e9;color:#1f8a4c;border:1px solid #1f8a4c;}
+        .condicion-badge.rezagado{background:#fff3e0;color:#e65100;border:1px solid #e65100;}
+        .condicion-badge.retest{background:#fce4ec;color:#c62828;border:1px solid #c62828;}
+        .calculo-detalle p{margin:4px 0;font-size:.95em;}
+        .estado-aprobado{color:#1f8a4c;font-weight:700;}
+        .estado-reprobado{color:#c0392b;font-weight:700;}
+        .estado-pendiente{color:#e67e22;font-weight:700;}
+        .nota-calculo{font-size:.88em;color:var(--muted);font-style:italic;}
+        .plancheta-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;max-width:600px;margin:15px auto;}
+        .plancheta-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;max-width:640px;margin:15px auto;}
+        .plancheta-item{
+            position:relative;padding:6px 4px 8px;border-radius:8px;font-size:11px;font-weight:700;
+            text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;
+            border:1px solid rgba(11,36,71,.08);box-shadow:0 2px 6px rgba(11,36,71,.08);
+            transition:transform .15s ease;
+        }
+        .plancheta-item:hover{transform:translateY(-2px);}
+        .plancheta-item .num{font-size:10px;opacity:.85;}
+        .pmark{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:11px;line-height:1;}
+        .pmark.ok{background:#2eb85c;border-radius:5px;box-shadow:0 2px 6px rgba(46,184,92,.45);}
+        .pmark.x{background:#e53935;box-shadow:0 2px 6px rgba(229,57,53,.45);}
+        .pmark.pend{background:#ffa726;box-shadow:0 2px 6px rgba(255,167,38,.45);position:relative;}
+        .pmark.pend::after{content:"";width:6px;height:6px;background:#fff;border-radius:50%;}
+        .pmark svg{width:12px;height:12px;}
+        /* Tech accents */
+        .input-carnet{position:relative;animation:pulseGlow 2.4s ease-in-out infinite;}
+        #btnIniciar{position:relative;overflow:hidden;}
+        #btnIniciar::after{
+            content:"";position:absolute;top:0;left:0;width:40%;height:100%;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
+            animation:scanX 2.6s ease-in-out infinite;
+        }
+        .brand-bar .brand .dot{animation:pulseGlow 2s ease-in-out infinite;}
+        .tiempo-global{position:relative;overflow:hidden;}
+        .tiempo-global::before{
+            content:"";position:absolute;inset:0;
+            background:linear-gradient(90deg,transparent,rgba(246,201,69,.25),transparent);
+            animation:scanX 3s linear infinite;
+        }
+        .card-resultado{position:relative;overflow:hidden;}
+        .card-resultado::before{
+            content:"";position:absolute;inset:-1px;border-radius:16px;padding:1px;
+            background:linear-gradient(120deg,transparent 30%,rgba(225,177,44,.7) 50%,transparent 70%);
+            background-size:200% 200%;
+            -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+            -webkit-mask-composite:xor;mask-composite:exclude;
+            animation:scanX 3.5s linear infinite;pointer-events:none;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body oncontextmenu="return false" onkeydown="return manejarBloqueoTeclado(event)" ondragstart="return false" class="scroll-inicio">
+
+<div id="modal-confirmacion">
+    <div class="modal-content">
+        <h3>¿Confirmar Envío?</h3>
+        <p>Una vez enviado, no podrá corregir sus respuestas.</p>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:18px;">
+            <button onclick="cerrarModal()" class="btn-siguiente" style="background:#dfe5ee;color:var(--navy);padding:10px 20px;">Cancelar</button>
+            <button onclick="procesarEnvioFinal()" class="btn-primario" style="padding:10px 20px;">Sí, enviar todo</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-salir">
+    <div class="modal-content">
+        <h3>¿Desea salir del examen?</h3>
+        <p>Si sale ahora se perderá el avance no guardado.</p>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:18px;">
+            <button onclick="cancelarSalida()" class="btn-siguiente" style="padding:10px 20px;">Cancelar</button>
+            <button onclick="confirmarSalida()" class="btn-primario" style="padding:10px 20px;background:linear-gradient(180deg,#a32424,#7d1313);">Aceptar</button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="brand-bar">
+        <div class="brand"><span class="dot"></span> EIE · Escuela de Idiomas del Ejército</div>
+        <div class="tag">TEST ALCPT</div>
+    </div>
+
+    <div id="pantalla-carga-final">
+        <div class="loader-container">
+            <div class="spinner-red"></div>
+            <img src="LOGO_EIE.png" class="logo-spinner" id="img-loader" onerror="this.style.display='none'">
+        </div>
+        <h3 id="mensaje-carga-final" style="color:var(--navy);">Procesando...</h3>
+    </div>
+
+    <div id="aviso-conexion">
+        <div class="loader-container">
+            <div class="spinner-red"></div>
+            <img src="LOGO_EIE.png" class="logo-spinner" alt="Cargando..." onerror="this.style.display='none'">
+        </div>
+        <strong style="color:var(--err);font-size:1.25em;">SIN CONEXIÓN</strong>
+        <p id="texto-estado" style="color:var(--muted);">Reintentando conectar… El examen continuará automáticamente.</p>
+    </div>
+
+    <div id="pantalla-inicio">
+        <h2>EIE TEST ALCPT</h2>
+        <div style="margin-bottom:14px;">
+            <p style="color:var(--muted);">Ingrese su Número de Carnet para comenzar:</p>
+            <input type="text" id="input-carnet" class="input-carnet" placeholder="C.I. del Estudiante" onfocus="enFocoInput=true" onblur="enFocoInput=false">
+            <button id="btnIniciar" class="btn-primario" style="margin-top:14px;">Comenzar Ahora</button>
+        </div>
+        <div class="instr">
+            <h3>INSTRUCCIONES PARA EL EXAMEN</h3>
+            Si dará el examen en un dispositivo móvil deberá activar la opción <b>Sitio para computadora</b> y Subir el volumen al máximo.<br>
+            Una vez presionado <b>COMENZAR AHORA</b>, el examen iniciará con la 1ra parte (Listening).<br>
+            Preguntas <b>1 al 25</b>: escuchará audios y elegirá una opción (A, B, C, D). Tiempo límite de <b>20 segundos por pregunta</b> (la <b>25 dispone de 45 segundos</b>).<br>
+            Preguntas <b>26 al 50</b> (Reading): sin límite por pregunta.<br>
+            Duración máxima del examen: <b>60 minutos</b>. Al llegar a 60:00 el examen se enviará automáticamente.<br>
+            Si pierde la señal el sistema esperará y reanudará en la pregunta donde se quedó.<br>
+            Al terminar las 50 preguntas podrá revisar y modificar respuestas, y luego presionar <b>GUARDAR Y ENVIAR</b>.
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <div id="nav-panel" class="nav-panel">
+            <h4 style="margin:0 0 8px;font-size:.78em;color:var(--navy);letter-spacing:1.5px;">NAVEGACIÓN</h4>
+            <div id="nav-grid" class="nav-grid"></div>
+        </div>
+
+        <div id="pantalla-pregunta" class="pregunta-box">
+            <div class="header-pregunta">
+                <span class="texto-pregunta" id="texto-pregunta">Cargando...</span>
+                <div class="tiempo-global" id="reloj-global">60:00</div>
+            </div>
+            <div id="zona-dinamica" class="bloque-contenido">
+                <div id="espacio-imagen"></div>
+                <div id="contenedor-opciones"></div>
+            </div>
+            <div id="wrapper-timer">
+                <div class="timer-container">
+                    <div id="barra-progreso" class="timer-bar"></div>
+                </div>
+                <p class="contador-texto">Tiempo pregunta: <span id="contador-numero">20</span>s</p>
+            </div>
+            <button id="btnSiguiente" class="btn-siguiente">Siguiente Pregunta</button>
+            <button id="btnGuardarEnviar" class="btn-primario">Guardar y Enviar Todo</button>
+        </div>
+    </div>
+
+    <div id="pantalla-final" style="display:none;"></div>
+</div>
+
+<audio id="reproductor"></audio>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzShsa4Ji2WpwZNv9KnrsAfiqxKmb-J8L2gYOFRBK-CsnoQk6Cpvv7J2Pi20y9GC7dv/exec";
+    let datosEstudiante = null;
+    let preguntasVistas = new Set();
+    let enFocoInput = false;
+    let numCarnet = "";
+    let examenIniciado = false;
+    let examenFinalizado = false;
+    let datosResultadoServidor = null;
+
+    function manejarBloqueoTeclado(e) {
+        if (enFocoInput) return true;
+        if (e.keyCode == 116) { mostrarModalSalir(); e.preventDefault(); return false; }
+        if (e.ctrlKey && (e.keyCode == 82)) { mostrarModalSalir(); e.preventDefault(); return false; }
+        if (e.keyCode == 123 || (e.ctrlKey && (e.keyCode == 85 || (e.shiftKey && e.keyCode == 73)))) { return false; }
+        return false;
+    }
+
+    window.addEventListener('beforeunload', function(e) {
+        if (examenIniciado && !examenFinalizado) {
+            e.preventDefault();
+            e.returnValue = '¿Desea salir del examen? Se perderá el avance.';
+            return e.returnValue;
+        }
+    });
+
+    function mostrarModalSalir() { if (!examenIniciado || examenFinalizado) return; document.getElementById('modal-salir').style.display = 'flex'; }
+    function cancelarSalida() { document.getElementById('modal-salir').style.display = 'none'; }
+    function confirmarSalida() { examenFinalizado = true; try { window.close(); } catch (e) { } window.location.href = 'about:blank'; }
+
+    const _k_v1 = [3,1,0,1,3, 2,2,2,1,1, 1,1,3,0,2, 2,1,2,2,2, 0,0,3,1,1, 1,0,3,0,0, 3,3,0,1,0, 2,1,1,1,0, 3,0,0,1,0, 0,2,3,3,1, 2,0,3,1,2, 1,1,3,2,1, 1,2,1,0,1, 3,3,1,2,2, 2,3,2,2,3, 1,3,3,2,0, 3,2,3,2,0, 2,0,2,1,0, 1,2,2,1,2, 0,2,3,2,3];
+
+		const examenData_v1 = [
+			// --- PART 1 - LISTENING ---
+			{ audio: "1_52.mp3", pregunta: "1.", tipo: "texto", opciones: ["The test doesn't bother him.", "He is happy about the test.", "He thinks the test is easy.", "He is worried about the test."] },
+			{ audio: "2_52.mp3", pregunta: "2.", tipo: "texto", opciones: ["He found it there.", "He put it there.", "He took it from there.", "He looked for it there."] },
+			{ audio: "3_52.mp3", pregunta: "3.", tipo: "texto", opciones: ["A lot of people work for Mr. Richards.", "A lot of people live with Mr. Richards.", "A lot of people agree with Mr. Richards.", "A lot of people listen to Mr. Richards."] },
+			{ audio: "4_52.mp3", pregunta: "4.", tipo: "texto", opciones: ["Accidents happen at yellow lights.", "Accidents occur when there are many cars.", "Accidents are cut down during the night.", "Accidents increase when the lights are red."] },
+			{ audio: "5_52.mp3", pregunta: "5.", tipo: "texto", opciones: ["He was late to lab.", "He arrived at the lab early.", "He arrived late.", "He arrived at the exact time."] },
+			{ audio: "6_52.mp3", pregunta: "6.", tipo: "texto", opciones: ["fingers", "ribs", "eyes", "knees"] },
+			{ audio: "7_52.mp3", pregunta: "7.", tipo: "texto", opciones: ["4 feet", "6 pounds", "20 gallons", "3 dollars"] },
+			{ audio: "8_52.mp3", pregunta: "8.", tipo: "texto", opciones: ["eat", "exercise", "wash", "sleep"] },
+			{ audio: "9_52.mp3", pregunta: "9.", tipo: "texto", opciones: ["at home", "in a restaurant", "in bed", "in the kitchen"] },
+			{ audio: "10_52.mp3", pregunta: "10.", tipo: "texto", opciones: ["They are paid in the same amount.", "They are paid every month.", "They are not usually paid by the month.", "They should be paid promptly."] },
+			{ audio: "11_52.mp3", pregunta: "11.", tipo: "texto", opciones: ["because we had a test", "because it was a holiday", "because the weather was nice", "because we had some homework"] },
+			{ audio: "12_52.mp3", pregunta: "12.", tipo: "texto", opciones: ["to his place of work", "to a social gathering", "to a baseball game", "to another part of town"] },
+			{ audio: "13_52.mp3", pregunta: "13.", tipo: "texto", opciones: ["cause the accident", "record the accident", "get near the accident", "keep away from the accident"] },
+			{ audio: "14_52.mp3", pregunta: "14.", tipo: "texto", opciones: ["a difference of opinion", "a party", "a long way to go", "an understanding"] },
+			{ audio: "15_52.mp3", pregunta: "15.", tipo: "texto", opciones: ["some clothes", "a fireproof liquid", "something that burns easily", "a liquid with a bad smell"] },
+			{ audio: "16_52.mp3", pregunta: "16.", tipo: "texto", opciones: ["Tom is now in class.", "Tom has been in class for two weeks.", "Tom is ill.", "Tom is in good health."] },
+			{ audio: "17_52.mp3", pregunta: "17.", tipo: "texto", opciones: ["She is angry.", "She is cold.", "She is hungry.", "She is blind."] },
+			{ audio: "18_52.mp3", pregunta: "18.", tipo: "texto", opciones: ["She looks after her mother.", "She is looking for her mother.", "She resembles her mother.", "She is fond of her mother."] },
+			{ audio: "19_52.mp3", pregunta: "19.", tipo: "texto", opciones: ["I dislike tea.", "I refer to tea.", "I prefer tea.", "My tea is rather hot."] },
+			{ audio: "20_52.mp3", pregunta: "20.", tipo: "texto", opciones: ["He does not have much work.", "He does not like to work.", "His work is good.", "His work is late."] },
+			{ audio: "21_52.mp3", pregunta: "21.", tipo: "texto", opciones: ["It won't run.", "It will go very fast.", "I keep it outside at night.", "I have bought a new one."] },
+			{ audio: "22_52.mp3", pregunta: "22.", tipo: "texto", opciones: ["Don't hurry.", "Look at your watch.", "Come now.", "Begin immediately."] },
+			{ audio: "23_52.mp3", pregunta: "23.", tipo: "texto", opciones: ["A schedule was lost.", "A schedule was destroyed.", "A schedule was found.", "A schedule was established."] },
+			{ audio: "24_52.mp3", pregunta: "24.", tipo: "texto", opciones: ["Avoid your studies.", "Continue your studies.", "Cancel your studies.", "Drop your studies."] },
+			{ audio: "25_52.mp3", pregunta: "25.", tipo: "texto", opciones: ["It is impure.", "It can't be seen.", "It is fresh.", "It can't be changed."] },
+			{ audio: "26_52.mp3", pregunta: "26.", tipo: "texto", opciones: ["John will examine the visitors.", "John will amuse the visitors.", "John will turn away the visitors.", "John will frighten the visitors."] },
+			{ audio: "27_52.mp3", pregunta: "27.", tipo: "texto", opciones: ["The box is not heavy.", "It has a handle.", "The box is not hard.", "The light is on."] },
+			{ audio: "28_52.mp3", pregunta: "28.", tipo: "texto", opciones: ["He was finding fault with it.", "He was supporting it.", "He was reading and writing about it.", "He was explaining it with pictures."] },
+			{ audio: "29_52.mp3", pregunta: "29.", tipo: "texto", opciones: ["$4.00", "$4.20", "$3.80", "$3.98"] },
+			{ audio: "30_52.mp3", pregunta: "30.", tipo: "texto", opciones: ["metal", "pieces", "a strong new plastic", "a natural product"] },
+			{ audio: "31_52.mp3", pregunta: "31.", tipo: "texto", opciones: ["He got it at the store.", "He read it slowly.", "He looked for the book.", "He looked at it quickly."] },
+			{ audio: "32_52.mp3", pregunta: "32.", tipo: "texto", opciones: ["She will teach the job.", "She will be ordered to do it.", "She will be tired from the job.", "She will be taught how to do the job."] },
+			{ audio: "33_52.mp3", pregunta: "33.", tipo: "texto", opciones: ["He wrote these books.", "These books are not his.", "He didn't write these books.", "He bought these books."] },
+			{ audio: "34_52.mp3", pregunta: "34.", tipo: "texto", opciones: ["They fired a lot of people.", "They employed a lot of people.", "The people were retired.", "The people were promoted."] },
+			{ audio: "35_52.mp3", pregunta: "35.", tipo: "texto", opciones: ["I don't know if he will come.", "I don't know why he will come.", "I don't know when he will come.", "I don't know how he will come."] },
+			{ audio: "36_52.mp3", pregunta: "36.", tipo: "texto", opciones: ["I wish it would last longer.", "I wish it would get colder.", "I wish it would end.", "I wish it would start."] },
+			{ audio: "37_52.mp3", pregunta: "37.", tipo: "texto", opciones: ["It's getting a little late.", "It's beginning to rain.", "There are a few seats left.", "It's sleeting."] },
+			{ audio: "38_52.mp3", pregunta: "38.", tipo: "texto", opciones: ["They surrounded him.", "They saved him.", "They located him.", "They captured him."] },
+			{ audio: "39_52.mp3", pregunta: "39.", tipo: "texto", opciones: ["He came this morning.", "He left this morning.", "He was given some money this morning.", "He was out of cash this morning."] },
+			{ audio: "40_52.mp3", pregunta: "40.", tipo: "texto", opciones: ["I have little money now.", "I have only small bills.", "I have more money than usual.", "I have a lot of cash at present."] },
+			{ audio: "41_52.mp3", pregunta: "41.", tipo: "texto", opciones: ["I like it cooked medium.", "I like it raw.", "I like it hot.", "I like it cooked thoroughly."] },
+			{ audio: "42_52.mp3", pregunta: "42.", tipo: "texto", opciones: ["Control the class.", "Leave the class.", "Study the class.", "Dismiss the class."] },
+			{ audio: "43_52.mp3", pregunta: "43.", tipo: "texto", opciones: ["She had to discontinue going to school.", "She had to leave the room for a few minutes.", "The bus driver let her off at the school.", "She lost her school books."] },
+			{ audio: "44_52.mp3", pregunta: "44.", tipo: "texto", opciones: ["It is stocked up.", "There isn't any more.", "There is a lot of fruit.", "It is never empty."] },
+			{ audio: "45_52.mp3", pregunta: "45.", tipo: "texto", opciones: ["Wear this coat.", "Hang this coat up.", "Put this coat down.", "Buy this coat."] },
+			{ audio: "46_52.mp3", pregunta: "46.", tipo: "texto", opciones: ["that she would perhaps come to visit him", "that she must come to visit him", "that she ought to come to visit him", "that she'll visit him by all means."] },
+			{ audio: "47_52.mp3", pregunta: "47.", tipo: "texto", opciones: ["Jack enjoyed the sound at the party.", "Jack didn't like the sounds at the party.", "It seems that Jack had a good time.", "Jack himself didn't like the party."] },
+			{ audio: "48_52.mp3", pregunta: "48.", tipo: "texto", opciones: ["She doesn't like him.", "She doesn't want to see him.", "She doesn't want to wait for him.", "She doesn't know him."] },
+			{ audio: "49_52.mp3", pregunta: "49.", tipo: "texto", opciones: ["I can meet him later.", "I met him before.", "I am looking for him.", "I am eager to meet him."] },
+			{ audio: "50_52.mp3", pregunta: "50.", tipo: "texto", opciones: ["The weather got worse yesterday.", "The clouds went away last night.", "It was cloudy last night.", "It was clear yesterday."] },
+			{ audio: "51_52.mp3", pregunta: "51.", tipo: "texto", opciones: ["They thought about it.", "They bought it.", "They repelled it.", "They reserved it."] },
+			{ audio: "52_52.mp3", pregunta: "52.", tipo: "texto", opciones: ["He was told to do guard duty.", "He was not allowed to do guard duty.", "He was excused from guard duty.", "He was ready to do guard duty."] },
+			{ audio: "53_52.mp3", pregunta: "53.", tipo: "texto", opciones: ["He bought a fishing reel.", "He bought a piston rod.", "He bought a storage battery.", "He bought a fishing pole."] },
+			{ audio: "54_52.mp3", pregunta: "54.", tipo: "texto", opciones: ["a bolt from the right wheel", "the rubber around the wheel", "the right front window", "the right front light"] },
+			{ audio: "55_52.mp3", pregunta: "55.", tipo: "texto", opciones: ["defended", "attacked", "surrendered", "counterattacked"] },
+			{ audio: "56_52.mp3", pregunta: "56.", tipo: "texto", opciones: ["Yes, she finished the trip a week ago.", "Yes, she said she didn't like the food or the people.", "No, she went both ways by boat.", "No, she had many suitcases with her."] },
+			{ audio: "57_52.mp3", pregunta: "57.", tipo: "texto", opciones: ["She is afraid of it.", "She likes it.", "She wants it.", "She dislikes it."] },
+			{ audio: "58_52.mp3", pregunta: "58.", tipo: "texto", opciones: ["sailing", "flying", "swimming", "driving"] },
+			{ audio: "59_52.mp3", pregunta: "59.", tipo: "texto", opciones: ["He is an officer.", "He works in the building.", "He has permission from someone in authority.", "He thinks his reason for entering is very important."] },
+			{ audio: "60_52.mp3", pregunta: "60.", tipo: "texto", opciones: ["his nurse", "his tools", "his license", "his medicines"] },
+			{ audio: "61_52.mp3", pregunta: "61.", tipo: "texto", opciones: ["in a bank", "in a hospital", "in a barracks", "in a hotel"] },
+			{ audio: "62_52.mp3", pregunta: "62.", tipo: "texto", opciones: ["It is better than Mary's.", "It is smaller than Mary's.", "It is not the same as Mary's.", "It is not as easy as Mary's to get."] },
+			{ audio: "63_52.mp3", pregunta: "63.", tipo: "texto", opciones: ["what it represents", "what it is made of", "what it does", "what it looks like"] },
+			{ audio: "64_52.mp3", pregunta: "64.", tipo: "texto", opciones: ["They are in the rear part of the store.", "They are outside, behind the store.", "They are upstairs, in a storage room.", "They are in the basement of the store."] },
+			{ audio: "65_52.mp3", pregunta: "65.", tipo: "texto", opciones: ["a stamp to mail the letter", "the reason why the letter was written", "an address for the letter", "something with which to seal the letter"] },
+			{ audio: "66_52.mp3", pregunta: "66.", tipo: "texto", opciones: ["Her coat got lost.", "Her coat got stolen.", "Her coat got dirty.", "Her coat got old."] },
+
+			// --- PART 2 - READING ---
+			{ audio: null, pregunta: "67. He used caution while driving in the rain. He drove ______.", tipo: "texto", opciones: ["as usual", "happily", "dangerously", "carefully"] },
+			{ audio: null, pregunta: "68. The man said, \"Turn off the faucet.\" He wanted us to ______.", tipo: "texto", opciones: ["let the water run", "stop the flow of water", "make the water run more slowly", "change the faucet"] },
+			{ audio: null, pregunta: "69. The class may go on a picnic tomorrow. It ______ on the weather.", tipo: "texto", opciones: ["determines", "waits", "depends", "relies"] },
+			{ audio: null, pregunta: "70. At noon the sun is directly ______ our heads.", tipo: "texto", opciones: ["by", "under", "over", "before"] },
+			{ audio: null, pregunta: "71. Was Jamie studying when the phone rang?", tipo: "texto", opciones: ["No, she is.", "No, she was.", "Yes, she was.", "Yes, she will."] },
+			{ audio: null, pregunta: "72. Frank says that they're ______ English very well now.", tipo: "texto", opciones: ["can speak", "spoke", "spoken", "speaking"] },
+			{ audio: null, pregunta: "73. The blue car drove through the gate ahead of the colonel's car.", tipo: "texto", opciones: ["to cut in on", "close to", "in front of", "in between"] },
+			{ audio: null, pregunta: "74. A great deal of sulfur is found in Texas.", tipo: "texto", opciones: ["A bargain of", "Very little", "A lot of", "A good grade of"] },
+			{ audio: null, pregunta: "75. The mail clerk didn't bring ______ packages today.", tipo: "texto", opciones: ["none", "some", "no", "any"] },
+			{ audio: null, pregunta: "76. Jack gave a definite answer to the question. His answer was ______.", tipo: "texto", opciones: ["happy", "firm", "not clear", "long"] },
+			{ audio: null, pregunta: "77. On the first page of a newspaper, we generally find ______.", tipo: "texto", opciones: ["the want ads", "the death notices", "the editorial section", "the headlines"] },
+			{ audio: null, pregunta: "78. Hard work accounted for Edison's success.", tipo: "texto", opciones: ["is not the reason for", "worked against", "did not amount to", "was the reason for"] },
+			{ audio: null, pregunta: "79. I asked him to give me a hand.", tipo: "texto", opciones: ["hold me", "shake hands", "help me", "take charge"] },
+			{ audio: null, pregunta: "80. ______ in one place for such a long time was very uncomfortable.", tipo: "texto", opciones: ["Sitting", "Sat", "Sit", "For sitting"] },
+			{ audio: null, pregunta: "81. Tom had the chair ______ from the office.", tipo: "texto", opciones: ["removes", "to remove", "removing", "removed"] },
+			{ audio: null, pregunta: "82. Was the pilot ______ by the bright lights?", tipo: "texto", opciones: ["confusing", "confuse", "confused", "to confuse"] },
+			{ audio: null, pregunta: "83. The repairman checked the rotation of the fan.", tipo: "texto", opciones: ["installation", "taking down", "vibration", "turning"] },
+			{ audio: null, pregunta: "84. Tom defends himself quite well by ______.", tipo: "texto", opciones: ["eating a good meal", "listening closely", "fighting back", "taking a rest"] },
+			{ audio: null, pregunta: "85. That steel pipe cannot be bent. It is ______.", tipo: "texto", opciones: ["rigid", "artificial", "soft", "dirty"] },
+			{ audio: null, pregunta: "86. What does it stand for?", tipo: "texto", opciones: ["make", "fight", "represent", "allow"] },
+			{ audio: null, pregunta: "87. Many people are injured every day on account of carelessness.", tipo: "texto", opciones: ["because of", "causing", "doing", "with"] },
+			{ audio: null, pregunta: "88. ______ you mind opening the door?", tipo: "texto", opciones: ["Could", "Should", "Would", "Might"] },
+			{ audio: null, pregunta: "89. I ______ write him if I knew his address.", tipo: "texto", opciones: ["will", "would", "can", "like"] },
+			{ audio: null, pregunta: "90. She doesn't mind doing the dishes. She doesn't ______.", tipo: "texto", opciones: ["object to it", "like to", "want to", "pay attention to it"] },
+			{ audio: null, pregunta: "91. They ______ already seen that movie.", tipo: "texto", opciones: ["were", "had", "having", "are"] },
+			{ audio: null, pregunta: "92. I glanced at my watch and realized ______.", tipo: "texto", opciones: ["it was that time for class", "it that time was for class", "that it was time for class", "for that time it was class"] },
+			{ audio: null, pregunta: "93. If you are broke, you ______.", tipo: "texto", opciones: ["are well-trained", "should see a doctor", "have no money", "prefer soft drinks"] },
+			{ audio: null, pregunta: "94. \"To be in debt\" means ______.", tipo: "texto", opciones: ["to be put into prison", "to owe money", "to be in a department store", "to lend money to someone else"] },
+			{ audio: null, pregunta: "95. Henry jotted down the word.", tipo: "texto", opciones: ["He used it in the right way.", "He repeated it several times.", "He wrote it on some paper.", "He saw it in a book."] },
+			{ audio: null, pregunta: "96. Paul usually works on Fridays. ______ Frank.", tipo: "texto", opciones: ["So does", "Neither does", "Either does", "So too"] },
+			{ audio: null, pregunta: "97. Don't ______ to the movies tonight.", tipo: "texto", opciones: ["going", "went", "go", "to go"] },
+			{ audio: null, pregunta: "98. This chair is similar ______ mine.", tipo: "texto", opciones: ["as", "from", "than", "to"] },
+			{ audio: null, pregunta: "99. Carol: Didn't that used car you looked at have bad tires?\nMelinda: Yes, but it was such a good deal that I bought it ______ them.", tipo: "texto", opciones: ["because of", "in regard to", "in spite of", "in addition to"] },
+			{ audio: null, pregunta: "100. When the continent was first discovered, there were vast tracts of unexplored ______.", tipo: "texto", opciones: ["districts", "inhabitants", "livestock", "wilderness"] }
+		];
+
+    const _k_v2 = [0,1,2,1,0, 3,2,2,3,2, 3,0,1,1,0, 2,1,3,1,0, 3,3,2,2,2, 3,2,0,0,2, 1,2,1,3,1, 2,3,0,2,1, 1,0,1,3,1, 3,1,0,3,1, 2,0,2,0,3, 2,3,3,1,1, 3,3,3,0,3, 3,0,3,1,1, 2,3,2,3,2, 3,2,3,1,0, 3,3,1,0,3, 3,3,2,1,0, 2,0,3,3,0, 2,1,2,0,0];
+		
+		const examenData_v2 = [
+			// --- PART 1 - LISTENING ---
+			{ audio: "1_50.mp3", pregunta: "1.", tipo: "texto", opciones: ["permit him to go", "make him stay home", "let him play at home", "help him study his lessons"] },
+			{ audio: "2_50.mp3", pregunta: "2.", tipo: "texto", opciones: ["to the kitchen", "to the laundry", "to the bookstore", "to the skating rink"] },
+			{ audio: "3_50.mp3", pregunta: "3.", tipo: "texto", opciones: ["Jim rode in two buses.", "Tom missed the wrong bus yesterday.", "Both Jim and Tom rode the wrong bus.", "Jim didn't get on the wrong bus yesterday."] },
+			{ audio: "4_50.mp3", pregunta: "4.", tipo: "texto", opciones: ["Jones thinks English is easy.", "He thinks it is hard to learn.", "He thinks it is a dead language.", "He thinks it is different."] },
+			{ audio: "5_50.mp3", pregunta: "5.", tipo: "texto", opciones: ["A lot of people work for Mr. Richards.", "A lot of people live with Mr. Richards.", "A lot of people agree with Mr. Richards.", "A lot of people listen to Mr. Richards."] },
+			{ audio: "6_50.mp3", pregunta: "6.", tipo: "texto", opciones: ["The humidity will be high.", "The wind will die down.", "The weather will become hot.", "The weather will become cold."] },
+			{ audio: "7_50.mp3", pregunta: "7.", tipo: "texto", opciones: ["at the room", "very tired", "12 blocks", "in the store"] },
+			{ audio: "8_50.mp3", pregunta: "8.", tipo: "texto", opciones: ["shopping", "hunting", "thinking", "skiing"] },
+			{ audio: "9_50.mp3", pregunta: "9.", tipo: "texto", opciones: ["the size of the shirt", "the number of shirts", "the quality of the shirt", "the price of the shirt"] },
+			{ audio: "10_50.mp3", pregunta: "10.", tipo: "texto", opciones: ["a thermometer", "a ruler", "a generator", "a light bulb"] },
+			{ audio: "11_50.mp3", pregunta: "11.", tipo: "texto", opciones: ["He buys the food.", "He eats the food.", "He sells the food.", "He prepares the food."] },
+			{ audio: "12_50.mp3", pregunta: "12.", tipo: "texto", opciones: ["sent a letter home", "went home to see his wife", "missed his class", "bought some envelopes"] },
+			{ audio: "13_50.mp3", pregunta: "13.", tipo: "texto", opciones: ["gas", "money", "oil", "polish"] },
+			{ audio: "14_50.mp3", pregunta: "14.", tipo: "texto", opciones: ["sixteen", "sixty", "last Sunday", "six"] },
+			{ audio: "15_50.mp3", pregunta: "15.", tipo: "texto", opciones: ["space to keep things in", "space to cook things in", "space to park cars", "space to play games"] },
+			{ audio: "16_50.mp3", pregunta: "16.", tipo: "texto", opciones: ["He'll fix it.", "He'll look for it.", "He'll buy it.", "He'll drive it."] },
+			{ audio: "17_50.mp3", pregunta: "17.", tipo: "texto", opciones: ["He had to pay for a phone call.", "He had to call the doctor.", "He had to leave the building.", "He had to answer the phone."] },
+			{ audio: "18_50.mp3", pregunta: "18.", tipo: "texto", opciones: ["She is angry.", "She is cold.", "She is hungry.", "She is blind."] },
+			{ audio: "19_50.mp3", pregunta: "19.", tipo: "texto", opciones: ["It won't run.", "It will go very fast.", "I keep it outside at night.", "I have bought a new one."] },
+			{ audio: "20_50.mp3", pregunta: "20.", tipo: "texto", opciones: ["Don't hurry.", "Look at your watch.", "Come now.", "Begin immediately."] },
+			{ audio: "21_50.mp3", pregunta: "21.", tipo: "texto", opciones: ["A schedule was lost.", "A schedule was destroyed.", "A schedule was found.", "A schedule was established."] },
+			{ audio: "22_50.mp3", pregunta: "22.", tipo: "texto", opciones: ["He got it at the store.", "He read it slowly.", "He looked for the book.", "He looked at it quickly."] },
+			{ audio: "23_50.mp3", pregunta: "23.", tipo: "texto", opciones: ["She will teach the job.", "She will be ordered to do it.", "She will be tired from the job.", "She will be taught how to do the job."] },
+			{ audio: "24_50.mp3", pregunta: "24.", tipo: "texto", opciones: ["They fired a lot of people.", "They employed a lot of people.", "The people were retired.", "The people were promoted."] },
+			{ audio: "25_50.mp3", pregunta: "25.", tipo: "texto", opciones: ["I don't know if he will come.", "I don't know why he will come.", "I don't know when he will come.", "I don't know how he will come."] },
+			{ audio: "26_50.mp3", pregunta: "26.", tipo: "texto", opciones: ["I wish it would last longer.", "I wish it would get colder.", "I wish it would end.", "I wish it would start."] },
+			{ audio: "27_50.mp3", pregunta: "27.", tipo: "texto", opciones: ["They surrounded him.", "They saved him.", "They located him.", "They captured him."] },
+			{ audio: "28_50.mp3", pregunta: "28.", tipo: "texto", opciones: ["He came this morning.", "He left this morning.", "He was given some money this morning.", "He was out of cash this morning."] },
+			{ audio: "29_50.mp3", pregunta: "29.", tipo: "texto", opciones: ["I like it cooked medium.", "I like it raw.", "I like it hot.", "I like it cooked thoroughly."] },
+			{ audio: "30_50.mp3", pregunta: "30.", tipo: "texto", opciones: ["Control the class.", "Leave the class.", "Study the class.", "Dismiss the class."] },
+			{ audio: "31_50.mp3", pregunta: "31.", tipo: "texto", opciones: ["She had to discontinue going to school.", "She had to leave the room for a few minutes.", "The bus driver let her off at the school.", "She lost her school books."] },
+			{ audio: "32_50.mp3", pregunta: "32.", tipo: "texto", opciones: ["Wear this coat.", "Hang this coat up.", "Put this coat down.", "Buy this coat."] },
+			{ audio: "33_50.mp3", pregunta: "33.", tipo: "texto", opciones: ["that she would perhaps come to visit him", "that she must come to visit him", "that she ought to come to visit him", "that she'll visit him by all means."] },
+			{ audio: "34_50.mp3", pregunta: "34.", tipo: "texto", opciones: ["She doesn't like him.", "She doesn't want to see him.", "She doesn't want to wait for him.", "She doesn't know him."] },
+			{ audio: "35_50.mp3", pregunta: "35.", tipo: "texto", opciones: ["I can meet him later.", "I met him before.", "I am looking for him.", "I am eager to meet him."] },
+			{ audio: "36_50.mp3", pregunta: "36.", tipo: "texto", opciones: ["The weather got worse yesterday.", "The clouds went away last night.", "It was cloudy last night.", "It was clear yesterday."] },
+			{ audio: "37_50.mp3", pregunta: "37.", tipo: "texto", opciones: ["He was told to do guard duty.", "He was not allowed to do guard duty.", "He was excused from guard duty.", "He was ready to do guard duty."] },
+			{ audio: "38_50.mp3", pregunta: "38.", tipo: "texto", opciones: ["He bought a fishing reel.", "He bought a piston rod.", "He bought a storage battery.", "He bought a fishing pole."] },
+			{ audio: "39_50.mp3", pregunta: "39.", tipo: "texto", opciones: ["defended", "attacked", "surrendered", "counterattacked"] },
+			{ audio: "40_50.mp3", pregunta: "40.", tipo: "texto", opciones: ["Yes, she finished the trip a week ago.", "Yes, she said she didn't like the food or the people.", "No, she went both ways by boat.", "No, she had many suitcases with her."] },
+			{ audio: "41_50.mp3", pregunta: "41.", tipo: "texto", opciones: ["She is afraid of it.", "She likes it.", "She wants it.", "She dislikes it."] },
+			{ audio: "42_50.mp3", pregunta: "42.", tipo: "texto", opciones: ["sailing", "flying", "swimming", "driving"] },
+			{ audio: "43_50.mp3", pregunta: "43.", tipo: "texto", opciones: ["He is an officer.", "He works in the building.", "He has permission from someone in authority.", "He thinks his reason for entering is very important."] },
+			{ audio: "44_50.mp3", pregunta: "44.", tipo: "texto", opciones: ["his nurse", "his tools", "his license", "his medicines"] },
+			{ audio: "45_50.mp3", pregunta: "45.", tipo: "texto", opciones: ["in a bank", "in a hospital", "in a barracks", "in a hotel"] },
+			{ audio: "46_50.mp3", pregunta: "46.", tipo: "texto", opciones: ["It is better than Mary's.", "It is smaller than Mary's.", "It is not the same as Mary's.", "It is not as easy as Mary's to get."] },
+			{ audio: "47_50.mp3", pregunta: "47.", tipo: "texto", opciones: ["what it represents", "what it is made of", "what it does", "what it looks like"] },
+			{ audio: "48_50.mp3", pregunta: "48.", tipo: "texto", opciones: ["They are in the rear part of the store.", "They are outside, behind the store.", "They are upstairs, in a storage room.", "They are in the basement of the store."] },
+			{ audio: "49_50.mp3", pregunta: "49.", tipo: "texto", opciones: ["a stamp to mail the letter", "the reason why the letter was written", "an address for the letter", "something with which to seal the letter"] },
+			{ audio: "50_50.mp3", pregunta: "50.", tipo: "texto", opciones: ["Because it has lots of windows.", "Because it has a small capacity.", "Because it is very dark.", "Because it is empty."] },
+			{ audio: "51_50.mp3", pregunta: "51.", tipo: "texto", opciones: ["They used a better grade of wood.", "They didn't use as much wood.", "They used wood of a lower quality.", "They didn't pay as much for the wood."] },
+			{ audio: "52_50.mp3", pregunta: "52.", tipo: "texto", opciones: ["She let Bob carry her groceries.", "She had Bob carry her groceries.", "She carried Bob's groceries.", "She wanted Bob to buy her groceries."] },
+			{ audio: "53_50.mp3", pregunta: "53.", tipo: "texto", opciones: ["The dynamic instructor.", "The boring instructor.", "The friendly instructor.", "The young instructor."] },
+			{ audio: "54_50.mp3", pregunta: "54.", tipo: "texto", opciones: ["He doesn't want to live there.", "He shouldn't live there.", "He isn't able to live there.", "He isn't permitted to live there."] },
+			{ audio: "55_50.mp3", pregunta: "55.", tipo: "texto", opciones: ["He is going to stop it.", "He is going to delay it.", "He is going to approve it.", "He is going to change it."] },
+			{ audio: "56_50.mp3", pregunta: "56.", tipo: "texto", opciones: ["He doesn't have any money.", "He has more money than he needs.", "He has only enough money.", "He needs to borrow some money."] },
+			{ audio: "57_50.mp3", pregunta: "57.", tipo: "texto", opciones: ["They are in the hospital.", "They are on a trip.", "They are in the laboratory.", "They are on a military base."] },
+			{ audio: "58_50.mp3", pregunta: "58.", tipo: "texto", opciones: ["a great deal of traffic", "some very bad weather", "an unexpected holiday", "a change in schedule"] },
+			{ audio: "59_50.mp3", pregunta: "59.", tipo: "texto", opciones: ["some fresh fruit", "a complete meal", "a light snack", "a piece of pie"] },
+			{ audio: "60_50.mp3", pregunta: "60.", tipo: "texto", opciones: ["The test was simple.", "The test was challenging.", "The test was very brief.", "The test was not graded."] },
+			{ audio: "61_50.mp3", pregunta: "61.", tipo: "texto", opciones: ["He had many things to do.", "He had an assignment to write.", "He was in a hurry to leave.", "He was tired from working."] },
+			{ audio: "62_50.mp3", pregunta: "62.", tipo: "texto", opciones: ["The car needs oil.", "The car has plenty of gas.", "The car isn't running right.", "The car has a flat tire."] },
+			{ audio: "63_50.mp3", pregunta: "63.", tipo: "texto", opciones: ["They are identical.", "They are different.", "They are too small.", "They are very cheap."] },
+			{ audio: "64_50.mp3", pregunta: "64.", tipo: "texto", opciones: ["a description of the hotel", "the reservation at the hotel", "the location of the hotel", "a room key for the hotel"] },
+			{ audio: "65_50.mp3", pregunta: "65.", tipo: "texto", opciones: ["Are the rocks unusual?", "Are they different shapes?", "Are they hard to find?", "Are they worth anything?"] },
+			{ audio: "66_50.mp3", pregunta: "66.", tipo: "texto", opciones: ["Her coat got lost.", "Her coat got stolen.", "Her coat got dirty.", "Her coat got old."] },
+
+			// --- PART 2 - READING ---
+			{ audio: null, pregunta: "67. Are there any other boys in Don's family? Yes, he ______.", tipo: "texto", opciones: ["has two brothers", "is the only child", "has one sister", "has a grandmother"] },
+			{ audio: null, pregunta: "68. An internal part of the body is ______.", tipo: "texto", opciones: ["the left foot", "the skin", "the nose", "the stomach"] },
+			{ audio: null, pregunta: "69. I am used to drinking coffee for breakfast.", tipo: "texto", opciones: ["I do not like coffee.", "I am accustomed to drinking coffee.", "I never drink coffee.", "I do not enjoy coffee for breakfast."] },
+			{ audio: null, pregunta: "70. The man said, \"Turn off the faucet.\" He wanted us to ______.", tipo: "texto", opciones: ["let the water run", "stop the flow of water", "make the water run more slowly", "change the faucet"] },
+			{ audio: null, pregunta: "71. At noon the sun is directly ______ our heads.", tipo: "texto", opciones: ["by", "under", "over", "before"] },
+			{ audio: null, pregunta: "72. You won't fail the test if ______.", tipo: "texto", opciones: ["you tonight study hard", "hard you study tonight", "hard study you tonight", "you study hard tonight"] },
+			{ audio: null, pregunta: "73. Select the correct sentence.", tipo: "texto", opciones: ["An electric current is by wire conducted.", "Conducted by wire an electric current is.", "An electric current is conducted by wire.", "Current is an electric conducted by wire."] },
+			{ audio: null, pregunta: "74. On the first page of a newspaper, we generally find ______.", tipo: "texto", opciones: ["the want ads", "the death notices", "the editorial section", "the headlines"] },
+			{ audio: null, pregunta: "75. The child was frightened.", tipo: "texto", opciones: ["delighted", "enlightened", "afraid", "pleased"] },
+			{ audio: null, pregunta: "76. This chair is similar ______ mine.", tipo: "texto", opciones: ["as", "from", "than", "to"] },
+			{ audio: null, pregunta: "77. The repairman checked the rotation of the fan.", tipo: "texto", opciones: ["installation", "taking down", "vibration", "turning"] },
+			{ audio: null, pregunta: "78. He said to the clerk, \"I want the same kind of pen as this one.\"", tipo: "texto", opciones: ["He wanted a better pen.", "He wanted a different pen.", "He wanted an identical pen.", "He wanted a fountain pen."] },
+			{ audio: null, pregunta: "79. The top of the table was not rough. It was ______.", tipo: "texto", opciones: ["smooth", "flat", "hard", "shiny"] },
+			{ audio: null, pregunta: "80. It was a surprise that the team did so well.", tipo: "texto", opciones: ["The team did so well that was the surprise.", "The team did so well was surprise.", "That the team did so well was a surprise.", "That the team did so well it was a surprise."] },
+			{ audio: null, pregunta: "81. This is a good car; ______ on the other hand, that one is not.", tipo: "texto", opciones: ["therefore", "however", "so", "consequently"] },
+			{ audio: null, pregunta: "82. After Judy took her dogs home, she gave ______ both a bath.", tipo: "texto", opciones: ["they", "them", "their", "theirs"] },
+			{ audio: null, pregunta: "83. The basketball player ______ his lack of height by his great speed.", tipo: "texto", opciones: ["ran for", "set about", "stuck around", "compensated for"] },
+			{ audio: null, pregunta: "84. John chose to continue working ______ retire because he needed the money.", tipo: "texto", opciones: ["contrary to", "but not", "rather than", "as well as"] },
+			{ audio: null, pregunta: "85. As the brothers grew older, they continued ______ studies.", tipo: "texto", opciones: ["his", "they", "their", "themselves"] },
+			{ audio: null, pregunta: "86. Learning a foreign language is hard.", tipo: "texto", opciones: ["It is hard to learn a foreign language.", "To learn a foreign language it is hard.", "It is hard learn a foreign language.", "Learning it is hard a foreign language."] },
+			{ audio: null, pregunta: "87. We didn't leave the house because it was raining.", tipo: "texto", opciones: ["We stayed home because of the rain.", "We went out in spite of the rain.", "The rain made us go out.", "The rain started after we left."] },
+			{ audio: null, pregunta: "88. The police officer told the driver that he must ______.", tipo: "texto", opciones: ["to show his license", "showed his license", "showing his license", "show his license"] },
+			{ audio: null, pregunta: "89. It's getting late. ______ now?", tipo: "texto", opciones: ["Should we better leave", "Had we better leave", "Would we better leave", "Ought we better leave"] },
+			{ audio: null, pregunta: "90. Why don't you look ______ the word in the dictionary?", tipo: "texto", opciones: ["through", "for", "up", "to"] },
+			{ audio: null, pregunta: "91. I hated the bus ride. It was long ______ boring.", tipo: "texto", opciones: ["but not", "as well as", "rather than", "contrary to"] },
+			{ audio: null, pregunta: "92. Enlisted men carry out military orders. They ______.", tipo: "texto", opciones: ["obey them", "carry them outside the building", "write them", "make others disobey"] },
+			{ audio: null, pregunta: "93. Ancient people cooled water in pottery jars. The porous pottery allowed some of the water to leak through the sides and evaporate. This caused the water inside to lose some of its heat. Today campers often store their water in cloth bags that allow some of the water to leak through and evaporate. According to this paragraph, ______.", tipo: "texto", opciones: ["ancient people cooled themselves by using pottery jars", "pottery jars were kept from leaking by cooling them", "pottery jars that leaked were not used", "some modern campers use an ancient method to cool their water"] },
+			{ audio: null, pregunta: "94. ______ that a hurricane was headed towards the coast, the honeymooners were forced to change their final destination.", tipo: "texto", opciones: ["For the purpose", "In the event", "In the hope", "Due to the fact"] },
+			{ audio: null, pregunta: "95. Students who ______ are good listeners.", tipo: "texto", opciones: ["are interested", "interesting", "be interested", "have interested"] },
+			{ audio: null, pregunta: "96. We saw him a ______ times at the movies.", tipo: "texto", opciones: ["many", "some", "few", "lots"] },
+			{ audio: null, pregunta: "97. I have a loose ______ in this tooth.", tipo: "texto", opciones: ["cavity", "filling", "gum", "toothache"] },
+			{ audio: null, pregunta: "98. With his torch, Tom ______.", tipo: "texto", opciones: ["cut a hole in the paper", "filled up the gasoline tank", "melted the metal rod", "cleaned out the garage"] },
+			{ audio: null, pregunta: "99. You can always count ______ Jerry to do the right thing.", tipo: "texto", opciones: ["on", "for", "by", "to"] },
+			{ audio: null, pregunta: "100. Paul usually works on Fridays. ______ Frank.", tipo: "texto", opciones: ["So does", "Neither does", "Either does", "So too"] }
+		];
+
+    // ===== Selección aleatoria: 66 con audio (1-66) y 34 sin audio (67-100) tomadas de ambas versiones =====
+    (function buildRandomExam(){
+        function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+        // Empareja cada pregunta con su respuesta correcta
+        const audioPool = [];
+        const readingPool = [];
+        function fill(data, key){
+            for(let i=0;i<data.length;i++){
+                const item = Object.assign({}, data[i]);
+                const entry = { item: item, ans: key[i] };
+                if(i < 66) audioPool.push(entry); else readingPool.push(entry);
+            }
+        }
+        fill(examenData_v1, _k_v1);
+        fill(examenData_v2, _k_v2);
+        shuffle(audioPool);
+        shuffle(readingPool);
+        const seleccionAudio = audioPool.slice(0, 66);
+        const seleccionReading = readingPool.slice(0, 34);
+        const finalData = [];
+        const finalKey = [];
+        seleccionAudio.forEach(function(e, idx){
+            const n = idx + 1;
+            const it = Object.assign({}, e.item);
+            // pregunta original es "N." -> renumerar
+            it.pregunta = n + '.';
+            finalData.push(it);
+            finalKey.push(e.ans);
+        });
+        seleccionReading.forEach(function(e, idx){
+            const n = 67 + idx;
+            const it = Object.assign({}, e.item);
+            // pregunta original empieza con "NN." -> reemplazar el número conservando el resto
+            it.pregunta = it.pregunta.replace(/^\s*\d+\.\s*/, n + '. ');
+            finalData.push(it);
+            finalKey.push(e.ans);
+        });
+        window.__examen = { data: finalData, key: finalKey };
+    })();
+    const examenData = window.__examen.data;
+    const _k = window.__examen.key;
+
+		
+    let indice = 0, respuestas = [], intervalo, temporizador, enPausa = false;
+    let imgOk = false, audioOk = false, modoRevision = false;
+    let chequeoRedIntervalo = null;
+
+    const TIEMPO_PREGUNTA_NORMAL = 40000;
+    const TIEMPO_PREGUNTA_25 = 45000;
+    function tiempoParaPregunta(i) { return i === 65 ? TIEMPO_PREGUNTA_25 : TIEMPO_PREGUNTA_NORMAL; }
+
+    let tiempoGlobalSegundos = 3600;
+    let intervaloGlobal = null;
+    let relojGlobalIniciado = false;
+
+    const reproductor = document.getElementById('reproductor');
+    const avisoRed = document.getElementById('aviso-conexion');
+
+    function actualizarPanelNavegacion() {
+        const grid = document.getElementById('nav-grid');
+        grid.innerHTML = '';
+        examenData.forEach(function(_, i) {
+            const item = document.createElement('div');
+            item.className = 'nav-item';
+            if (i === indice) item.classList.add('active');
+            if (respuestas[i] !== undefined && respuestas[i] !== null) item.classList.add('answered');
+            item.innerText = i + 1;
+            item.onclick = function() { if (modoRevision || i >= 66) { indice = i; mostrarPregunta(); } };
+            grid.appendChild(item);
+        });
+    }
+
+    function iniciarRelojGlobal() {
+        if (relojGlobalIniciado) return;
+        relojGlobalIniciado = true;
+        var m = Math.floor(tiempoGlobalSegundos / 60);
+        var s = tiempoGlobalSegundos % 60;
+        document.getElementById('reloj-global').innerText = m.toString().padStart(2, '0') + ':' + s.toString().padStart(2, '0');
+
+        intervaloGlobal = setInterval(function() {
+            if (!enPausa) {
+                // El temporizador global solo corre durante las preguntas con audio (1-66)
+                if (indice >= 66) { clearInterval(intervaloGlobal); return; }
+                tiempoGlobalSegundos--;
+                var m2 = Math.floor(tiempoGlobalSegundos / 60);
+                var s2 = tiempoGlobalSegundos % 60;
+                document.getElementById('reloj-global').innerText = m2.toString().padStart(2, '0') + ':' + s2.toString().padStart(2, '0');
+                if (tiempoGlobalSegundos <= 0) { clearInterval(intervaloGlobal); if (indice < 66 && !examenFinalizado) procesarEnvioFinal(); }
+            }
+        }, 1000);
+    }
+
+    async function actualizarAvanceNube() {
+        if (!datosEstudiante) return;
+        preguntasVistas.add(indice);
+        var totalResp = respuestas.filter(function(r) { return r !== undefined && r !== null; }).length;
+        var avanceTexto = 'Vistas: ' + preguntasVistas.size + ', Resp: ' + totalResp;
+        var aciertos = 0;
+        respuestas.forEach(function(res, i) { if (res === _k[i]) aciertos++; });
+        var notaActual = (aciertos) + ' / 100';
+
+        var letraParaHoja = "NULO";
+        var esCorrecta = false;
+        if (respuestas[indice] !== undefined && respuestas[indice] !== null) {
+            letraParaHoja = ["A", "B", "C", "D"][respuestas[indice]];
+            esCorrecta = (respuestas[indice] === _k[indice]);
+        }
+
+        var respuestasLimpias = respuestas.map(function(r) { return (r === undefined || r === null) ? null : r; });
+
+        var condicionEstudiante = datosEstudiante ? (datosEstudiante.condicion || 'NORMAL') : 'NORMAL';
+
+        try {
+            fetch(SCRIPT_URL, {
+                method: 'POST', mode: 'no-cors',
+                body: JSON.stringify({
+                    action: 'avance', fila: datosEstudiante.fila, avance: avanceTexto,
+                    notaParcial: notaActual, preguntaIndice: indice, letra: letraParaHoja,
+                    esCorrecto: esCorrecta, indice: indice, tiempoRestante: tiempoGlobalSegundos,
+                    respuestasJSON: JSON.stringify(respuestasLimpias),
+                    condicion: condicionEstudiante
+                })
+            });
+        } catch (e) { console.error("Error al sincronizar"); }
+    }
+
+    function pausarPorRed() {
+        if (enPausa) return;
+        enPausa = true;
+        avisoRed.style.display = 'flex';
+        try { reproductor.pause(); } catch (e) { }
+        clearInterval(intervalo);
+        clearTimeout(temporizador);
+        if (!chequeoRedIntervalo) {
+            chequeoRedIntervalo = setInterval(function() { if (navigator.onLine) cargarRecursosPreguntaActual(); }, 1000);
+        }
+    }
+
+    function cargarRecursosPreguntaActual() {
+        var data = examenData[indice];
+        imgOk = (data.tipo === "texto") || !data.imagen;
+        audioOk = (data.audio === null) || modoRevision;
+        if (data.imagen) {
+            var img = new Image();
+            img.onload = function() { imgOk = true; verificarSiPodemosSeguir(); };
+            img.onerror = function() { imgOk = false; pausarPorRed(); };
+            img.src = data.imagen + "?t=" + Date.now();
+        }
+        if (data.audio && !modoRevision) {
+            try {
+                reproductor.oncanplaythrough = function() { audioOk = true; verificarSiPodemosSeguir(); };
+                reproductor.onerror = function() { audioOk = false; pausarPorRed(); };
+                reproductor.src = data.audio + "?t=" + Date.now();
+                reproductor.load();
+            } catch (e) { pausarPorRed(); }
+        } else { verificarSiPodemosSeguir(); }
+    }
+
+    function verificarSiPodemosSeguir() {
+        if (imgOk && audioOk && navigator.onLine) {
+            clearInterval(chequeoRedIntervalo);
+            chequeoRedIntervalo = null;
+            enPausa = false;
+            avisoRed.style.display = 'none';
+            if (!examenIniciado) { examenIniciado = true; iniciarRelojGlobal(); }
+            if (examenData[indice].audio && !modoRevision) { reproductor.play().catch(function() { }); }
+            if (!modoRevision && indice < 66) {
+                document.getElementById('wrapper-timer').style.visibility = 'visible';
+                empezarTimer(tiempoParaPregunta(indice));
+            } else {
+                document.getElementById('wrapper-timer').style.visibility = 'hidden';
+            }
+        }
+    }
+
+    window.addEventListener('offline', pausarPorRed);
+    window.addEventListener('online', function() { if (enPausa) cargarRecursosPreguntaActual(); });
+
+    document.getElementById('btnIniciar').onclick = async function() {
+        var inputCarnet = document.getElementById('input-carnet');
+        var valor = inputCarnet.value.trim();
+        if (valor === "") { alert("Por favor, ingrese su número de carnet."); return; }
+        var pantallaCarga = document.getElementById('pantalla-carga-final');
+        var msjCarga = document.getElementById('mensaje-carga-final');
+        pantallaCarga.style.display = 'flex';
+        msjCarga.innerText = "Validando registro y horario...";
+        try {
+            var response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'validar', carnet: valor }) });
+            var res = await response.json();
+            if (res.success) {
+                datosEstudiante = res;
+                numCarnet = valor;
+                msjCarga.innerText = "Cargando primera pregunta...";
+                document.getElementById('pantalla-inicio').style.display = 'none';
+                document.body.classList.remove('scroll-inicio');
+                document.getElementById('nav-panel').style.display = 'block';
+                document.getElementById('pantalla-pregunta').style.display = 'block';
+
+                if (res.reanudar) {
+                    indice = res.indice || 0;
+                    tiempoGlobalSegundos = res.tiempoRestante || 3600;
+                    if (res.respuestas && res.respuestas.length > 0) { respuestas = res.respuestas; }
+                    var mR = Math.floor(tiempoGlobalSegundos / 60);
+                    var sR = tiempoGlobalSegundos % 60;
+                    document.getElementById('reloj-global').innerText = mR.toString().padStart(2, '0') + ':' + sR.toString().padStart(2, '0');
+                    actualizarPanelNavegacion();
+                }
+
+                mostrarPregunta();
+                var espera = setInterval(function() { if (examenIniciado) { pantallaCarga.style.display = 'none'; clearInterval(espera); } }, 200);
+            } else {
+                pantallaCarga.style.display = 'none';
+                alert(res.mensaje || "Usted no se encuentra habilitado o registrado para este examen.");
+            }
+        } catch (e) {
+            pantallaCarga.style.display = 'none';
+            alert("Error de conexión. Intente de nuevo.");
+        }
+    };
+
+    function mostrarPregunta() {
+        if (indice >= examenData.length) { activarModoRevision(); return; }
+        actualizarAvanceNube();
+        actualizarPanelNavegacion();
+        var data = examenData[indice];
+        var zona = document.getElementById('zona-dinamica');
+        zona.innerHTML = '<div id="espacio-imagen"></div><div id="contenedor-opciones"></div>';
+        var espacioImg = document.getElementById('espacio-imagen');
+        var contenedorOpts = document.getElementById('contenedor-opciones');
+        document.getElementById('contador-numero').innerText = Math.round(tiempoParaPregunta(indice) / 1000);
+
+        if (data.tipo === "visual") {
+            var elTP = document.getElementById('texto-pregunta'); elTP.innerText = data.pregunta; elTP.style.fontSize = (data.pregunta && data.pregunta.length > 200) ? '0.93em' : '';
+            contenedorOpts.className = "contenedor-opciones-circular";
+            var img = document.createElement('img');
+            img.className = 'imagen-pregunta';
+            img.src = data.imagen;
+            espacioImg.appendChild(img);
+            ['A', 'B', 'C', 'D'].forEach(function(letra, i) {
+                var div = document.createElement('div');
+                div.className = 'division-opcion';
+                var btn = document.createElement('button');
+                btn.className = 'opcion-btn-circular' + (respuestas[indice] === i ? ' seleccionada' : '');
+                btn.innerText = letra;
+                btn.onclick = function() {
+                    document.querySelectorAll('.opcion-btn-circular').forEach(function(b) { b.classList.remove('seleccionada'); });
+                    btn.classList.add('seleccionada');
+                    respuestas[indice] = i;
+                    actualizarPanelNavegacion();
+                    actualizarAvanceNube();
+                };
+                div.appendChild(btn);
+                contenedorOpts.appendChild(div);
+            });
+        }
+        else if (data.tipo === "texto") {
+            var elTP2 = document.getElementById('texto-pregunta'); elTP2.innerText = data.pregunta; elTP2.style.fontSize = (data.pregunta && data.pregunta.length > 200) ? '0.93em' : '';
+            contenedorOpts.className = "contenedor-opciones-vertical";
+            data.opciones.forEach(function(texto, i) {
+                var btn = document.createElement('button');
+                btn.className = 'opcion-btn-vertical' + (respuestas[indice] === i ? ' seleccionada' : '');
+                btn.innerHTML = '<strong>' + String.fromCharCode(65 + i) + '.</strong>  ' + texto;
+                btn.onclick = function() {
+                    document.querySelectorAll('.opcion-btn-vertical').forEach(function(b) { b.classList.remove('seleccionada'); });
+                    btn.classList.add('seleccionada');
+                    respuestas[indice] = i;
+                    actualizarPanelNavegacion();
+                    actualizarAvanceNube();
+                };
+                contenedorOpts.appendChild(btn);
+            });
+        }
+        else if (data.tipo === "etapa2") {
+            document.getElementById('texto-pregunta').innerText = "";
+            zona.innerHTML = '<div class="layout-etapa2"><img src="' + data.imagen + '" class="img-lateral"><div class="columna-opciones"><p style="font-size:' + ((data.pregunta && data.pregunta.length > 50) ? '0.6em' : '1.2em') + ';font-weight:700;margin-bottom:14px;text-align:center;color:var(--navy);">' + data.pregunta + '</p><div id="sub-opts"></div></div></div>';
+            var subOpts = document.getElementById('sub-opts');
+            data.opciones.forEach(function(texto, i) {
+                var btn = document.createElement('button');
+                btn.className = 'opcion-btn-vertical' + (respuestas[indice] === i ? ' seleccionada' : '');
+                btn.style.marginBottom = "8px";
+                btn.innerHTML = '<strong>' + String.fromCharCode(65 + i) + '.</strong> ' + texto;
+                btn.onclick = function() {
+                    document.querySelectorAll('.opcion-btn-vertical').forEach(function(b) { b.classList.remove('seleccionada'); });
+                    btn.classList.add('seleccionada');
+                    respuestas[indice] = i;
+                    actualizarPanelNavegacion();
+                    actualizarAvanceNube();
+                };
+                subOpts.appendChild(btn);
+            });
+        }
+        cargarRecursosPreguntaActual();
+    }
+
+    function activarModoRevision() {
+        modoRevision = true;
+        clearInterval(intervalo);
+        clearTimeout(temporizador);
+        document.getElementById('wrapper-timer').style.display = 'none';
+        document.getElementById('btnSiguiente').style.display = 'none';
+        document.getElementById('btnGuardarEnviar').style.display = 'inline-block';
+        indice = 0;
+        mostrarPregunta();
+    }
+
+    function empezarTimer(ms) {
+        clearInterval(intervalo);
+        clearTimeout(temporizador);
+        var queda = ms;
+        var barra = document.getElementById('barra-progreso');
+        barra.style.transition = 'none';
+        barra.style.width = '100%';
+        document.getElementById('contador-numero').innerText = Math.round(ms / 1000);
+        setTimeout(function() {
+            if (enPausa) return;
+            barra.style.transition = 'width ' + ms + 'ms linear';
+            barra.style.width = '0%';
+        }, 50);
+        intervalo = setInterval(function() {
+            if (!enPausa) { queda -= 1000; if (queda >= 0) document.getElementById('contador-numero').innerText = Math.ceil(queda / 1000); }
+        }, 1000);
+        temporizador = setTimeout(function() {
+            if (!enPausa) { actualizarAvanceNube(); indice++; mostrarPregunta(); }
+        }, ms);
+    }
+
+    document.getElementById('btnGuardarEnviar').onclick = function() { document.getElementById('modal-confirmacion').style.display = 'flex'; };
+    function cerrarModal() { document.getElementById('modal-confirmacion').style.display = 'none'; }
+
+    async function procesarEnvioFinal() {
+        cerrarModal();
+        clearInterval(intervaloGlobal);
+        examenFinalizado = true;
+        var pantallaCarga = document.getElementById('pantalla-carga-final');
+        var msjCarga = document.getElementById('mensaje-carga-final');
+        pantallaCarga.style.display = 'flex';
+        msjCarga.innerText = "Guardando respuestas...";
+        var aciertos = respuestas.filter(function(r, i) { return r === _k[i]; }).length;
+        var notaSobre100 = aciertos;
+        var notaFinal = notaSobre100 + ' / 100';
+
+        var detallesResultados = [];
+        for (var i = 0; i < examenData.length; i++) {
+            if (respuestas[i] !== undefined && respuestas[i] !== null) {
+                detallesResultados.push(["A", "B", "C", "D"][respuestas[i]]);
+            } else {
+                detallesResultados.push("NULO");
+            }
+        }
+
+        try {
+            var response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'guardar', fila: datosEstudiante ? datosEstudiante.fila : null, nota: notaSobre100, detalles: detallesResultados }) });
+            var res = await response.json();
+            if (res.success) {
+                datosResultadoServidor = res;
+                msjCarga.innerText = "¡Datos guardados con éxito!";
+                setTimeout(function() { pantallaCarga.style.display = 'none'; finalizar(res.fecha, notaFinal, res); }, 1200);
+            } else {
+                pantallaCarga.style.display = 'none';
+                finalizar("Error en servidor", notaFinal, res);
+            }
+        } catch (e) {
+            pantallaCarga.style.display = 'none';
+            alert("Error al guardar en la nube. Se mostrará el resultado localmente.");
+            finalizar("Error en servidor", notaFinal, null);
+        }
+    }
+
+    function finalizar(fecha, nota, datosServidor) {
+        document.getElementById('nav-panel').style.display = 'none';
+        document.getElementById('pantalla-pregunta').style.display = 'none';
+        document.body.classList.add('scroll-resultado');
+
+        var finalDiv = document.getElementById('pantalla-final');
+        var hoy = new Date();
+        var meses = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
+        var fechaTexto = hoy.getDate() + ' DE ' + meses[hoy.getMonth()] + ' DEL ' + hoy.getFullYear();
+        var nombreEst = datosEstudiante ? datosEstudiante.nombre : "Estudiante";
+        var libroEst = datosEstudiante && datosEstudiante.libro ? datosEstudiante.libro : "TEST ALCPT";
+        var condicion = datosEstudiante ? datosEstudiante.condicion : "NORMAL";
+        if (!condicion) condicion = "NORMAL";
+
+        var aciertos = respuestas.filter(function(r, i) { return r === _k[i]; }).length;
+        var notaBase = aciertos;
+        var notaRezagadoVal = "";
+        var notaRetestVal = "";
+        var estadoBase = notaBase >= 70 ? "APROBADO" : (notaBase > 0 ? "REPROBADO" : "PENDIENTE");
+        var estadoRezagado = "";
+        var estadoRetest = "";
+
+        if (datosServidor) {
+            if (datosServidor.notaObtenida !== undefined && datosServidor.notaObtenida !== "") {
+                notaBase = typeof datosServidor.notaObtenida === 'number' ? datosServidor.notaObtenida : notaBase;
+                estadoBase = notaBase >= 70 ? "APROBADO" : (notaBase > 0 ? "REPROBADO" : "PENDIENTE");
+            }
+            if (datosServidor.notaRezagoFinal !== undefined && datosServidor.notaRezagoFinal !== "") {
+                notaRezagadoVal = datosServidor.notaRezagoFinal;
+                estadoRezagado = datosServidor.estadoRezago || "";
+            }
+            if (datosServidor.notaRetestFinal !== undefined && datosServidor.notaRetestFinal !== "") {
+                notaRetestVal = datosServidor.notaRetestFinal;
+                estadoRetest = datosServidor.estadoRetest || "";
+            }
+        } else {
+            if (condicion === "REZAGADO") {
+                notaRezagadoVal = Math.round(notaBase * 0.9);
+                estadoRezagado = notaRezagadoVal >= 70 ? "APROBADO" : "REPROBADO";
+            }
+            if (condicion === "RETEST") {
+                notaRetestVal = Math.min(notaBase, 70);
+                estadoRetest = notaRetestVal >= 70 ? "APROBADO" : "REPROBADO";
+            }
+        }
+
+        var SVG_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12 10 17 19 7"/></svg>';
+        var SVG_X = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
+
+        var planchetaHTML = '<div class="plancheta-grid">';
+        for (var i = 0; i < 100; i++) {
+            var bg = 'linear-gradient(180deg,#fff8e1,#ffe9a8)';
+            var color = '#7a5a00';
+            var markHTML = '<span class="pmark pend"></span>';
+            if (respuestas[i] !== undefined && respuestas[i] !== null) {
+                if (respuestas[i] === _k[i]) {
+                    bg = 'linear-gradient(180deg,#e6f7ec,#c6ebd2)'; color = '#155724';
+                    markHTML = '<span class="pmark ok">' + SVG_OK + '</span>';
+                } else {
+                    bg = 'linear-gradient(180deg,#fde9eb,#f6c6ca)'; color = '#721c24';
+                    markHTML = '<span class="pmark x">' + SVG_X + '</span>';
+                }
+            }
+            planchetaHTML += '<div class="plancheta-item" style="background:' + bg + ';color:' + color + ';"><div class="num">' + (i + 1) + '</div>' + markHTML + '</div>';
+        }
+        planchetaHTML += '</div>';
+
+        var condicionBadgeClass = 'normal';
+        var condicionTexto = 'NORMAL — En Plazo';
+        var detalleCalculoHTML = '';
+
+        if (condicion === 'REZAGADO') {
+            condicionBadgeClass = 'rezagado';
+            condicionTexto = 'REZAGADO';
+            var notaRezDisplay = (typeof notaRezagadoVal === 'number') ? notaRezagadoVal + ' / 100' : notaRezagadoVal;
+            var estRezClass = estadoRezagado === 'APROBADO' ? 'estado-aprobado' : 'estado-reprobado';
+            detalleCalculoHTML = '<div class="calculo-detalle">' +
+                '<p><strong>Nota Obtenida:</strong> ' + notaBase + ' / 100</p>' +
+                '<p><strong>Cálculo Rezagado:</strong> ' + notaBase + ' × 90% = <strong>' + notaRezDisplay + '</strong></p>' +
+                '<p class="nota-calculo">* La nota Rezagado se calcula al 90% de la nota obtenida según reglamento.</p>' +
+                '</div>';
+        } else if (condicion === 'RETEST') {
+            condicionBadgeClass = 'retest';
+            condicionTexto = 'RETEST';
+            var notaRetDisplay = (typeof notaRetestVal === 'number') ? notaRetestVal + ' / 100' : notaRetestVal;
+            var estRetClass = estadoRetest === 'APROBADO' ? 'estado-aprobado' : 'estado-reprobado';
+            detalleCalculoHTML = '<div class="calculo-detalle">' +
+                '<p><strong>Nota Obtenida:</strong> ' + notaBase + ' / 100</p>' +
+                '<p><strong>Cálculo Retest:</strong> Mínimo(' + notaBase + ', 70) = <strong>' + notaRetDisplay + '</strong></p>' +
+                '<p class="nota-calculo">* La nota Retest tiene como máximo 70 pts según reglamento.</p>' +
+                '</div>';
+        } else {
+            detalleCalculoHTML = '<div class="calculo-detalle">' +
+                '<p><strong>Nota Obtenida:</strong> ' + notaBase + ' / 100</p>' +
+                '</div>';
+        }
+
+        var notaPrincipalHTML = '<div class="nota-destacada">NOTA OBTENIDA: ' + notaBase + ' / 100</div>';
+
+        var notasAdicionalesHTML = '';
+        if (condicion === 'REZAGADO' && notaRezagadoVal !== "") {
+            var notaRezDisp = (typeof notaRezagadoVal === 'number') ? notaRezagadoVal + ' / 100' : notaRezagadoVal;
+            notasAdicionalesHTML = '<div style="font-size:20px;font-weight:700;color:var(--navy-2);background:#fff3e0;padding:10px;margin:6px 0 12px;border-radius:8px;display:block;border:2px solid #e65100;">NOTA FINAL REZAGADO (90%): ' + notaRezDisp + '</div>';
+        }
+        if (condicion === 'RETEST' && notaRetestVal !== "") {
+            var notaRetDisp = (typeof notaRetestVal === 'number') ? notaRetestVal + ' / 100' : notaRetestVal;
+            notasAdicionalesHTML = '<div style="font-size:20px;font-weight:700;color:var(--navy-2);background:#fce4ec;padding:10px;margin:6px 0 12px;border-radius:8px;display:block;border:2px solid #c62828;">NOTA FINAL RETEST (MÁX 70): ' + notaRetDisp + '</div>';
+        }
+
+        finalDiv.innerHTML =
+            '<div class="card-resultado" id="certificado-area">' +
+            '<img src="LOGO_EIE.png" style="width:56px;margin-bottom:4px;" onerror="this.style.display=\'none\'">' +
+            '<h3>RESULTADO DE EVALUACIÓN</h3>' +
+            '<div class="detalle-final">' +
+            '<p><strong>ESTUDIANTE:</strong> ' + nombreEst + '</p>' +
+            '<p><strong>CARNET DE IDENTIDAD:</strong> ' + numCarnet + '</p>' +
+            '<p><strong>LIBRO:</strong> ' + libroEst + '</p>' +
+            '<p><strong>FECHA:</strong> ' + fechaTexto + '</p>' +
+            '</div>' +
+            '<div class="detalle-condicion">' +
+            '<div class="condicion-badge ' + condicionBadgeClass + '">' + condicionTexto + '</div>' +
+            detalleCalculoHTML +
+            '</div>' +
+            notaPrincipalHTML +
+            notasAdicionalesHTML +
+            '<h4 style="color:var(--navy);margin:15px 0 5px;">PLANCHETA DE RESULTADOS</h4>' +
+            planchetaHTML +
+            '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px;">' +
+            '<button onclick="descargarPDF()" class="btn-primario btn-mostaza">DESCARGAR PDF</button>' +
+            '<button onclick="window.location.href=\'https://eievirtual2026.github.io/LOGIN/\'" class="btn-primario">INICIO</button>' +
+            '</div>' +
+            '</div>';
+        finalDiv.style.display = 'block';
+    }
+
+    document.getElementById('btnSiguiente').onclick = function() {
+        if (!enPausa) { clearInterval(intervalo); clearTimeout(temporizador); indice++; mostrarPregunta(); }
+    };
+
+    function cargarLogoBase64() {
+        return new Promise(function(resolve) {
+            try {
+                var img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = function() {
+                    try {
+                        var canvas = document.createElement('canvas');
+                        canvas.width = img.naturalWidth || img.width;
+                        canvas.height = img.naturalHeight || img.height;
+                        var ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        resolve({ data: canvas.toDataURL('image/png'), w: canvas.width, h: canvas.height });
+                    } catch(e) { resolve(null); }
+                };
+                img.onerror = function() { resolve(null); };
+                img.src = 'LOGO_EIE.png';
+            } catch(e) { resolve(null); }
+        });
+    }
+
+    async function descargarPDF() {
+        try {
+            var nombreEst = datosEstudiante ? datosEstudiante.nombre : "Estudiante";
+            var libroEst = datosEstudiante && datosEstudiante.libro ? datosEstudiante.libro : "TEST ALCPT";
+            var condicion = datosEstudiante ? datosEstudiante.condicion : "NORMAL";
+            if (!condicion) condicion = "NORMAL";
+
+            var hoy = new Date();
+            var meses = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
+            var fechaTexto = hoy.getDate() + " DE " + meses[hoy.getMonth()] + " DEL " + hoy.getFullYear();
+
+            var aciertos = respuestas.filter(function(r, i) { return r === _k[i]; }).length;
+            var notaBase = aciertos;
+
+            var notaRezagadoVal = "";
+            var notaRetestVal = "";
+            var estadoBase = notaBase >= 70 ? "APROBADO" : (notaBase > 0 ? "REPROBADO" : "PENDIENTE");
+            var estadoRezagado = "";
+            var estadoRetest = "";
+
+            if (datosResultadoServidor) {
+                if (datosResultadoServidor.notaObtenida !== undefined && datosResultadoServidor.notaObtenida !== "") {
+                    notaBase = typeof datosResultadoServidor.notaObtenida === 'number' ? datosResultadoServidor.notaObtenida : notaBase;
+                    estadoBase = notaBase >= 70 ? "APROBADO" : (notaBase > 0 ? "REPROBADO" : "PENDIENTE");
+                }
+                if (datosResultadoServidor.notaRezagoFinal !== undefined && datosResultadoServidor.notaRezagoFinal !== "") {
+                    notaRezagadoVal = datosResultadoServidor.notaRezagoFinal;
+                    estadoRezagado = datosResultadoServidor.estadoRezago || "";
+                }
+                if (datosResultadoServidor.notaRetestFinal !== undefined && datosResultadoServidor.notaRetestFinal !== "") {
+                    notaRetestVal = datosResultadoServidor.notaRetestFinal;
+                    estadoRetest = datosResultadoServidor.estadoRetest || "";
+                }
+            } else {
+                if (condicion === "REZAGADO") {
+                    notaRezagadoVal = Math.round(notaBase * 0.9);
+                    estadoRezagado = notaRezagadoVal >= 70 ? "APROBADO" : "REPROBADO";
+                }
+                if (condicion === "RETEST") {
+                    notaRetestVal = Math.min(notaBase, 70);
+                    estadoRetest = notaRetestVal >= 70 ? "APROBADO" : "REPROBADO";
+                }
+            }
+
+            // Cargar jsPDF (UMD)
+            var jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : (window.jsPDF || null);
+            if (!jsPDFCtor) {
+                alert('No se pudo cargar el generador de PDF. Verifique su conexión a internet.');
+                return;
+            }
+
+            var doc = new jsPDFCtor({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+            var pageW = doc.internal.pageSize.getWidth();
+            var y = 15;
+
+            // Encabezado: logo EIE (con fallback a cuadro con "E")
+            var logoInfo = await cargarLogoBase64();
+            if (logoInfo && logoInfo.data) {
+                var logoH = 20;
+                var logoW = logoH * (logoInfo.w / logoInfo.h);
+                if (logoW > 40) { logoW = 40; logoH = logoW * (logoInfo.h / logoInfo.w); }
+                doc.addImage(logoInfo.data, 'PNG', pageW/2 - logoW/2, y, logoW, logoH);
+                y += logoH + 6;
+            } else {
+                doc.setFillColor(11, 36, 71);
+                doc.roundedRect(pageW/2 - 8, y, 16, 16, 2, 2, 'F');
+                doc.setTextColor(225, 177, 44);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(18);
+                doc.text('E', pageW/2, y + 11, { align: 'center' });
+                y += 22;
+            }
+
+            doc.setTextColor(11, 36, 71);
+            doc.setFontSize(12);
+            doc.text('ESCUELA DE IDIOMAS DEL EJERCITO', pageW/2, y, { align: 'center' });
+            y += 4;
+            doc.setDrawColor(225, 177, 44);
+            doc.setLineWidth(1);
+            doc.line(pageW/2 - 15, y, pageW/2 + 15, y);
+            y += 8;
+
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('RESULTADO DE EVALUACION', pageW/2, y, { align: 'center' });
+            y += 10;
+
+            // Datos del estudiante (con Libro)
+            var boxX = 25, boxW = pageW - 50;
+            var boxDatosH = 34;
+            doc.setFillColor(247, 249, 252);
+            doc.setDrawColor(219, 226, 236);
+            doc.roundedRect(boxX, y, boxW, boxDatosH, 2, 2, 'FD');
+            doc.setFontSize(10);
+            doc.setTextColor(11, 36, 71);
+            var ly = y + 7;
+            function ponerCampo(label, valor){
+                doc.setFont('helvetica', 'bold');
+                doc.text(label, boxX + 4, ly);
+                var lw = doc.getTextWidth(label);
+                doc.setFont('helvetica', 'normal');
+                doc.text(String(valor == null ? '' : valor), boxX + 4 + lw + 1, ly);
+                ly += 6.5;
+            }
+            ponerCampo('ESTUDIANTE: ', nombreEst);
+            ponerCampo('CARNET DE IDENTIDAD: ', numCarnet || '');
+            ponerCampo('LIBRO: ', libroEst);
+            ponerCampo('FECHA: ', fechaTexto);
+            y += boxDatosH + 6;
+
+            // Condicion + detalles
+            var condColor = [31, 138, 76], condBg = [232, 245, 233], condicionLabel = 'NORMAL';
+            if (condicion === 'REZAGADO') { condColor = [230, 81, 0]; condBg = [255, 243, 224]; condicionLabel = 'REZAGADO'; }
+            if (condicion === 'RETEST') { condColor = [198, 40, 40]; condBg = [252, 228, 236]; condicionLabel = 'RETEST'; }
+
+            var detalleLineas = [];
+            if (condicion === 'REZAGADO') {
+                var notaRezDisp = (typeof notaRezagadoVal === 'number') ? notaRezagadoVal + ' / 100' : notaRezagadoVal;
+                detalleLineas.push(['Nota Obtenida: ', notaBase + ' / 100']);
+                detalleLineas.push(['Calculo Rezagado: ', notaBase + ' x 90% = ' + notaRezDisp]);
+                detalleLineas.push(['Estado: ', estadoRezagado, estadoRezagado === 'APROBADO' ? [31,138,76] : [192,57,43]]);
+                detalleLineas.push(['* La nota Rezagado se calcula al 90% de la nota obtenida.', '', null, true]);
+            } else if (condicion === 'RETEST') {
+                var notaRetDisp = (typeof notaRetestVal === 'number') ? notaRetestVal + ' / 100' : notaRetestVal;
+                detalleLineas.push(['Nota Obtenida: ', notaBase + ' / 100']);
+                detalleLineas.push(['Calculo Retest: ', 'Minimo(' + notaBase + ', 70) = ' + notaRetDisp]);
+                detalleLineas.push(['Estado: ', estadoRetest, estadoRetest === 'APROBADO' ? [31,138,76] : [192,57,43]]);
+                detalleLineas.push(['* La nota Retest tiene como maximo 70 pts.', '', null, true]);
+            } else {
+                var estBaseCol = estadoBase === 'APROBADO' ? [31,138,76] : (estadoBase === 'PENDIENTE' ? [230,126,34] : [192,57,43]);
+                detalleLineas.push(['Nota Obtenida: ', notaBase + ' / 100']);
+                detalleLineas.push(['Estado: ', estadoBase, estBaseCol]);
+            }
+
+            var boxH = 14 + detalleLineas.length * 6;
+            doc.setFillColor(condBg[0], condBg[1], condBg[2]);
+            doc.setDrawColor(condColor[0], condColor[1], condColor[2]);
+            doc.roundedRect(boxX, y, boxW, boxH, 2, 2, 'FD');
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(condColor[0], condColor[1], condColor[2]);
+            doc.text('CONDICION: ' + condicionLabel, boxX + 4, y + 7);
+            var dy = y + 14;
+            for (var di = 0; di < detalleLineas.length; di++) {
+                var ln = detalleLineas[di];
+                doc.setFontSize(ln[3] ? 8 : 10);
+                doc.setFont('helvetica', ln[3] ? 'italic' : 'bold');
+                doc.setTextColor(11, 27, 52);
+                doc.text(ln[0], boxX + 4, dy);
+                if (ln[1]) {
+                    var labelW = doc.getTextWidth(ln[0]);
+                    doc.setFont('helvetica', ln[2] ? 'bold' : 'normal');
+                    if (ln[2]) doc.setTextColor(ln[2][0], ln[2][1], ln[2][2]);
+                    doc.text(String(ln[1]), boxX + 4 + labelW, dy);
+                }
+                dy += 6;
+            }
+            y += boxH + 6;
+
+            // Nota principal (caja destacada)
+            doc.setFillColor(253, 236, 177);
+            doc.setDrawColor(225, 177, 44);
+            doc.setLineWidth(0.6);
+            doc.roundedRect(boxX, y, boxW, 14, 2, 2, 'FD');
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(14);
+            doc.setTextColor(11, 36, 71);
+            doc.text('NOTA OBTENIDA: ' + notaBase + ' / 100', pageW/2, y + 9, { align: 'center' });
+            y += 18;
+
+            // Nota adicional rezagado / retest
+            if (condicion === 'REZAGADO' && notaRezagadoVal !== "") {
+                var nRez = (typeof notaRezagadoVal === 'number') ? notaRezagadoVal + ' / 100' : notaRezagadoVal;
+                doc.setFillColor(255, 243, 224);
+                doc.setDrawColor(230, 81, 0);
+                doc.roundedRect(boxX, y, boxW, 12, 2, 2, 'FD');
+                doc.setFontSize(12);
+                doc.setTextColor(15, 42, 92);
+                doc.text('NOTA FINAL REZAGADO (90%): ' + nRez, pageW/2, y + 8, { align: 'center' });
+                y += 16;
+            }
+            if (condicion === 'RETEST' && notaRetestVal !== "") {
+                var nRet = (typeof notaRetestVal === 'number') ? notaRetestVal + ' / 100' : notaRetestVal;
+                doc.setFillColor(252, 228, 236);
+                doc.setDrawColor(198, 40, 40);
+                doc.roundedRect(boxX, y, boxW, 12, 2, 2, 'FD');
+                doc.setFontSize(12);
+                doc.setTextColor(15, 42, 92);
+                doc.text('NOTA FINAL RETEST (MAX 70): ' + nRet, pageW/2, y + 8, { align: 'center' });
+                y += 16;
+            }
+
+            // Plancheta de resultados
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(11);
+            doc.setTextColor(11, 36, 71);
+            doc.text('PLANCHETA DE RESULTADOS', pageW/2, y, { align: 'center' });
+            y += 5;
+
+            var cols = 10, rows = 5, gap = 1.5;
+            var gridW = boxW;
+            var cellW = (gridW - gap * (cols - 1)) / cols;
+            var cellH = 10;
+            for (var r = 0; r < rows; r++) {
+                for (var c = 0; c < cols; c++) {
+                    var idx = r * cols + c;
+                    var cx = boxX + c * (cellW + gap);
+                    var cy = y + r * (cellH + gap);
+                    var bg = [255, 243, 205], fg = [133, 100, 4], tipo = 'pend';
+                    if (respuestas[idx] !== undefined && respuestas[idx] !== null) {
+                        if (respuestas[idx] === _k[idx]) { bg = [212, 237, 218]; fg = [21, 87, 36]; tipo = 'ok'; }
+                        else { bg = [248, 215, 218]; fg = [114, 28, 36]; tipo = 'x'; }
+                    }
+                    doc.setFillColor(bg[0], bg[1], bg[2]);
+                    doc.setDrawColor(bg[0], bg[1], bg[2]);
+                    doc.roundedRect(cx, cy, cellW, cellH, 1, 1, 'F');
+                    doc.setTextColor(fg[0], fg[1], fg[2]);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(6);
+                    doc.text(String(idx + 1), cx + cellW/2, cy + 3.2, { align: 'center' });
+                    // Dibujar marcas tipo emoji (figuras vectoriales)
+                    var mcx = cx + cellW/2, mcy = cy + 7;
+                    if (tipo === 'ok') {
+                        // Cuadrado verde con check blanco
+                        doc.setFillColor(46, 184, 92);
+                        doc.roundedRect(mcx - 2.2, mcy - 2.2, 4.4, 4.4, 0.6, 0.6, 'F');
+                        doc.setDrawColor(255, 255, 255);
+                        doc.setLineWidth(0.7);
+                        doc.line(mcx - 1.4, mcy + 0.1, mcx - 0.3, mcy + 1.2);
+                        doc.line(mcx - 0.3, mcy + 1.2, mcx + 1.5, mcy - 1.2);
+                    } else if (tipo === 'x') {
+                        // Circulo rojo con X blanca
+                        doc.setFillColor(229, 57, 53);
+                        doc.circle(mcx, mcy, 2.2, 'F');
+                        doc.setDrawColor(255, 255, 255);
+                        doc.setLineWidth(0.7);
+                        doc.line(mcx - 1.2, mcy - 1.2, mcx + 1.2, mcy + 1.2);
+                        doc.line(mcx - 1.2, mcy + 1.2, mcx + 1.2, mcy - 1.2);
+                    } else {
+                        // Circulo naranja (pendiente)
+                        doc.setFillColor(255, 167, 38);
+                        doc.circle(mcx, mcy, 2.2, 'F');
+                        doc.setFillColor(255, 255, 255);
+                        doc.circle(mcx, mcy, 0.9, 'F');
+                    }
+                    doc.setLineWidth(0.2);
+                }
+            }
+            y += rows * (cellH + gap) + 6;
+
+            // Pie
+            doc.setDrawColor(225, 177, 44);
+            doc.setLineWidth(0.8);
+            doc.line(pageW/2 - 15, y, pageW/2 + 15, y);
+            y += 5;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            doc.setTextColor(91, 107, 133);
+            doc.text('TEST ALCPT - Documento generado automaticamente - EIE', pageW/2, y, { align: 'center' });
+
+            doc.save('Resultado_' + (numCarnet || 'EIE') + '_TB4.pdf');
+        } catch (err) {
+            console.error('Error PDF:', err);
+            alert('No se pudo generar el PDF. Intente nuevamente.\n\n' + (err && err.message ? err.message : ''));
+        }
+    }
+</script>
+</body>
+</html>

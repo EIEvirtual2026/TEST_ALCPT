@@ -386,11 +386,11 @@
             <h3>INSTRUCCIONES PARA EL EXAMEN</h3>
             Si dará el examen en un dispositivo móvil deberá activar la opción <b>Sitio para computadora</b> y Subir el volumen al máximo.<br>
             Una vez presionado <b>COMENZAR AHORA</b>, el examen iniciará con la 1ra parte (Listening).<br>
-            Preguntas <b>1 al 66</b>: escuchará audios y elegirá una opción (A, B, C, D). Tiempo límite de <b>50 segundos por pregunta.</b>
-            Preguntas <b>67 al 100</b> (Reading): sin límite por pregunta.<br>
+            Preguntas <b>1 al 25</b>: escuchará audios y elegirá una opción (A, B, C, D). Tiempo límite de <b>20 segundos por pregunta</b> (la <b>25 dispone de 45 segundos</b>).<br>
+            Preguntas <b>26 al 50</b> (Reading): sin límite por pregunta.<br>
             Duración máxima del examen: <b>60 minutos</b>. Al llegar a 60:00 el examen se enviará automáticamente.<br>
             Si pierde la señal el sistema esperará y reanudará en la pregunta donde se quedó.<br>
-            Al terminar las 100 preguntas podrá revisar y modificar respuestas, y luego presionar <b>GUARDAR Y ENVIAR</b>.
+            Al terminar las 50 preguntas podrá revisar y modificar respuestas, y luego presionar <b>GUARDAR Y ENVIAR</b>.
         </div>
     </div>
 
@@ -455,7 +455,7 @@
     function cancelarSalida() { document.getElementById('modal-salir').style.display = 'none'; }
     function confirmarSalida() { examenFinalizado = true; try { window.close(); } catch (e) { } window.location.href = 'about:blank'; }
 
-    const _k_v1 = [3,1,0,1,3, 2,2,2,1,1, 1,1,3,0,2, 2,1,2,2,2, 0,0,3,1,1, 1,0,3,0,0, 3,3,0,1,0, 2,1,1,1,0, 3,0,0,1,0, 0,2,3,3,1, 2,0,3,1,2, 1,1,3,2,1, 1,2,1,0,1, 3,3,1,2,2, 2,3,2,2,3, 1,3,3,2,0, 3,2,3,2,0, 2,0,2,1,0, 1,2,2,1,2, 0,2,3,2,3];
+    const _k_v1 = [3,1,0,1,3, 2,2,2,1,1, 1,1,3,0,2, 2,1,2,2,2, 0,0,3,1,1, 1,0,3,0,0, 3,3,0,1,0, 2,1,1,1,0, 3,0,0,1,0, 0,2,3,3,1, 2,0,3,1,2, 1,1,3,2,1, 1,2,1,0,1, 3,3,1,2,2, 2,3,2,2,3, 1,3,3,1,0, 3,2,3,2,0, 2,0,2,1,0, 1,2,2,1,2, 0,2,3,2,3];
 
 		const examenData_v1 = [
 			// --- PART 1 - LISTENING ---
@@ -671,47 +671,9 @@
 			{ audio: null, pregunta: "100. Paul usually works on Fridays. ______ Frank.", tipo: "texto", opciones: ["So does", "Neither does", "Either does", "So too"] }
 		];
 
-    // ===== Selección aleatoria: 66 con audio (1-66) y 34 sin audio (67-100) tomadas de ambas versiones =====
-    (function buildRandomExam(){
-        function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
-        // Empareja cada pregunta con su respuesta correcta
-        const audioPool = [];
-        const readingPool = [];
-        function fill(data, key){
-            for(let i=0;i<data.length;i++){
-                const item = Object.assign({}, data[i]);
-                const entry = { item: item, ans: key[i] };
-                if(i < 66) audioPool.push(entry); else readingPool.push(entry);
-            }
-        }
-        fill(examenData_v1, _k_v1);
-        fill(examenData_v2, _k_v2);
-        shuffle(audioPool);
-        shuffle(readingPool);
-        const seleccionAudio = audioPool.slice(0, 66);
-        const seleccionReading = readingPool.slice(0, 34);
-        const finalData = [];
-        const finalKey = [];
-        seleccionAudio.forEach(function(e, idx){
-            const n = idx + 1;
-            const it = Object.assign({}, e.item);
-            // pregunta original es "N." -> renumerar
-            it.pregunta = n + '.';
-            finalData.push(it);
-            finalKey.push(e.ans);
-        });
-        seleccionReading.forEach(function(e, idx){
-            const n = 67 + idx;
-            const it = Object.assign({}, e.item);
-            // pregunta original empieza con "NN." -> reemplazar el número conservando el resto
-            it.pregunta = it.pregunta.replace(/^\s*\d+\.\s*/, n + '. ');
-            finalData.push(it);
-            finalKey.push(e.ans);
-        });
-        window.__examen = { data: finalData, key: finalKey };
-    })();
-    const examenData = window.__examen.data;
-    const _k = window.__examen.key;
+    // ===== Examen secuencial: usa directamente la versión 1 sin sorteo =====
+    const examenData = examenData_v1;
+    const _k = _k_v1;
 
 		
     let indice = 0, respuestas = [], intervalo, temporizador, enPausa = false;
@@ -752,13 +714,11 @@
 
         intervaloGlobal = setInterval(function() {
             if (!enPausa) {
-                // El temporizador global solo corre durante las preguntas con audio (1-66)
-                if (indice >= 66) { clearInterval(intervaloGlobal); return; }
                 tiempoGlobalSegundos--;
                 var m2 = Math.floor(tiempoGlobalSegundos / 60);
                 var s2 = tiempoGlobalSegundos % 60;
                 document.getElementById('reloj-global').innerText = m2.toString().padStart(2, '0') + ':' + s2.toString().padStart(2, '0');
-                if (tiempoGlobalSegundos <= 0) { clearInterval(intervaloGlobal); if (indice < 66 && !examenFinalizado) procesarEnvioFinal(); }
+                if (tiempoGlobalSegundos <= 0) { clearInterval(intervaloGlobal); if (!examenFinalizado) procesarEnvioFinal(); }
             }
         }, 1000);
     }
@@ -1050,8 +1010,7 @@
         var fechaTexto = hoy.getDate() + ' DE ' + meses[hoy.getMonth()] + ' DEL ' + hoy.getFullYear();
         var nombreEst = datosEstudiante ? datosEstudiante.nombre : "Estudiante";
         var libroEst = datosEstudiante && datosEstudiante.libro ? datosEstudiante.libro : "TEST ALCPT";
-        var condicion = datosEstudiante ? datosEstudiante.condicion : "NORMAL";
-        if (!condicion) condicion = "NORMAL";
+        var condicion = "NORMAL";
 
         var aciertos = respuestas.filter(function(r, i) { return r === _k[i]; }).length;
         var notaBase = aciertos;
@@ -1203,8 +1162,7 @@
         try {
             var nombreEst = datosEstudiante ? datosEstudiante.nombre : "Estudiante";
             var libroEst = datosEstudiante && datosEstudiante.libro ? datosEstudiante.libro : "TEST ALCPT";
-            var condicion = datosEstudiante ? datosEstudiante.condicion : "NORMAL";
-            if (!condicion) condicion = "NORMAL";
+            var condicion = "NORMAL";
 
             var hoy = new Date();
             var meses = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
@@ -1319,18 +1277,14 @@
                 var notaRezDisp = (typeof notaRezagadoVal === 'number') ? notaRezagadoVal + ' / 100' : notaRezagadoVal;
                 detalleLineas.push(['Nota Obtenida: ', notaBase + ' / 100']);
                 detalleLineas.push(['Calculo Rezagado: ', notaBase + ' x 90% = ' + notaRezDisp]);
-                detalleLineas.push(['Estado: ', estadoRezagado, estadoRezagado === 'APROBADO' ? [31,138,76] : [192,57,43]]);
                 detalleLineas.push(['* La nota Rezagado se calcula al 90% de la nota obtenida.', '', null, true]);
             } else if (condicion === 'RETEST') {
                 var notaRetDisp = (typeof notaRetestVal === 'number') ? notaRetestVal + ' / 100' : notaRetestVal;
                 detalleLineas.push(['Nota Obtenida: ', notaBase + ' / 100']);
                 detalleLineas.push(['Calculo Retest: ', 'Minimo(' + notaBase + ', 70) = ' + notaRetDisp]);
-                detalleLineas.push(['Estado: ', estadoRetest, estadoRetest === 'APROBADO' ? [31,138,76] : [192,57,43]]);
                 detalleLineas.push(['* La nota Retest tiene como maximo 70 pts.', '', null, true]);
             } else {
-                var estBaseCol = estadoBase === 'APROBADO' ? [31,138,76] : (estadoBase === 'PENDIENTE' ? [230,126,34] : [192,57,43]);
                 detalleLineas.push(['Nota Obtenida: ', notaBase + ' / 100']);
-                detalleLineas.push(['Estado: ', estadoBase, estBaseCol]);
             }
 
             var boxH = 14 + detalleLineas.length * 6;
